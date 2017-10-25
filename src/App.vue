@@ -1,14 +1,26 @@
 <template>
   <div id="app">
     <transition name="router-fade" mode="out-in">
-      <router-view></router-view>
+        <router-view>
+        </router-view>
     </transition>
+    <loading v-model="isLoading"></loading>
   </div>
 </template>
 
 <script>
+import { Loading } from 'vux'
+import { mapState } from 'vuex'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    Loading
+  },
+  computed: {
+    ...mapState({
+      isLoading: state => state.app.isLoading
+    })
+  }
 }
 </script>
 

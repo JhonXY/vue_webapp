@@ -17,53 +17,61 @@
       </span>
     </header>
     <ul>
-      <li class="shop_li">
-        <section>
-          <img src="http://blog.img.chunibyo.org/card.jpg" alt="" class="shop_img">
-        </section>
-        <div class="shop_li_right">
-          <header>
-            <h4>
-              效果展示
-            </h4>
-            <ul>
-              <li>略</li>
-              <li>略</li>
-              <li>略</li>
-            </ul>
-          </header>
-          <h5 class="one">
-            <section class="one_left">
-              <section></section>
-              <p>月售123单</p>
-            </section>
-            <section class="one_right">
-              <p class="one_right_l">蜂鸟转送</p>
-              <p class="one_right_r">准时达到</p>
-            </section>   
-          </h5>
-          <h5 class="two">
-            <p class="fei">
-              ¥20起送/配送费约¥5
-            </p>
-            <p class="distance">
-              <span>14.5公里</span>
-              <span>/</span>
-              <span style="color: #3190e8">分钟</span>
-            </p>
-          </h5>
-        </div>
+      <li v-for="(item,index) in itemList" :key="index">
+        <shop-item v-bind="item"></shop-item>
       </li>
     </ul>
   </div>
 </template>
 
-<style lang="scss" scoped>
+<script>
+import ShopItem from './ShopItem'
+export default {
+  data() {
+    return {
+      itemList: [
+        {
+          title: '效果展示',
+          monthlySales: 123,
+          sendFee: 20,
+          shipFee: 5,
+          distance: 14.5
+        },
+        {
+          title: '效果展示',
+          monthlySales: 123,
+          sendFee: 20,
+          shipFee: 5,
+          distance: 14.5
+        },
+        {
+          title: '效果展示',
+          monthlySales: 123,
+          sendFee: 20,
+          shipFee: 5,
+          distance: 14.5
+        },
+        {
+          title: '效果展示',
+          monthlySales: 123,
+          sendFee: 20,
+          shipFee: 5,
+          distance: 14.5
+        },
+      ]
+    }
+  },
+  components: {
+    ShopItem
+  }
+}
+</script>
+<style lang="scss">
 .shop_list {
   border-top: 0.025rem solid #e4e4e4;
   background-color: #fff;
   margin-top: .4rem;
-  margin-bottom: 0.95rem;
+  margin-bottom: 1.95rem;
   .shop_icon {
     fill: #999;
     margin-left: 0.6rem;

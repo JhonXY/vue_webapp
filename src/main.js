@@ -8,7 +8,26 @@ import store from './store';
 import router from './router';
 import './utils/rem'
 
-FastClick.attach(document.body)
+if ('addEventListener' in document) {
+  document.addEventListener('DOMContentLoaded', function () {
+    FastClick.attach(document.body);
+  }, false);
+}
+
+router.beforeEach((to, from, next) => {
+  store.dispatch('changeLoad', { isLoading: true })
+  console.log('====================================');
+  console.log('before');
+  console.log('====================================');
+  next(); // 必须的
+})
+
+router.afterEach((to, from, next) => {
+  store.dispatch('changeLoad', { isLoading: false })
+  console.log('====================================');
+  console.log('after');
+  console.log('====================================');
+})
 
 Vue.config.productionTip = false
 

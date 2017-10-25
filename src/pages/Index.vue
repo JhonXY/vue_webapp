@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <welcome></welcome>
-    <head-top></head-top>
+    <head-top v-bind="head"></head-top>
     <nav class="nav_container">
       <swiper :list="imgs" auto style="width:100%;margin:0 auto;" height="8rem" dots-class="custom-bottom" dots-position="center"></swiper>
       <icon-bar></icon-bar>
@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import Welcome from '../components/Welcome.vue'
-import HeadTop from '../components/HeadTop.vue'
-import FootGuide from '../components/FootGuide.vue'
-import IconBar from '../components/IconBar.vue'
-import ShopList from '../components/ShopList.vue'
+import Welcome from '../components/index/Welcome.vue'
+import HeadTop from '../components/index/HeadTop.vue'
+import FootGuide from '../components/index/FootGuide.vue'
+import IconBar from '../components/index/IconBar.vue'
+import ShopList from '../components/index/ShopList.vue'
 import { Swiper } from 'vux'
 
 const imgList = [
@@ -41,7 +41,11 @@ export default {
   },
   data() {
     return {
-      imgs: List
+      imgs: List,
+      head: {
+        title: '这里是一个标题lalalallalalalalal',
+        goBack: false
+      }
     }
   }
 }

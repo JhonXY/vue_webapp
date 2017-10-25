@@ -1,7 +1,7 @@
 <template>
   <div class="welcome" :class="{ hide: isHide}">
     <div class="img-wrap">
-      <img src="../assets/images/welcome.jpg" alt="" width="100%" height="100%">
+      <!-- <img src="../assets/images/welcome.gif" alt="" width="100%" height="100%"> -->
     </div>
     <div class="text-wrap">
       <div class="logo"></div>
@@ -31,7 +31,7 @@ export default {
       setTimeout(() => {
         this.isHide = true
         this.$store.dispatch('changeLoadState')
-      }, 3000)
+      }, 1000)
     } else {
       this.isHide = true
     }
@@ -48,6 +48,7 @@ export default {
   top: 0;
   left: 0;
   height: 100%;
+  width: 100%;
   z-index: 999;
   display: flex;
   flex-direction: column;
@@ -55,6 +56,9 @@ export default {
   .img-wrap {
     position: relative;
     flex: 0 1 auto;
+    background: url(../../assets/images/welcome.gif) no-repeat center;
+    height: 75rem;
+    width: 100%;
   }
   .text-wrap {
     flex: 0 1 auto;
