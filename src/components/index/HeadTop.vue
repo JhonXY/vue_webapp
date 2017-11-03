@@ -2,12 +2,20 @@
   <header class="head_container">
     <div class="head_left">
       <!-- 这里用router-link不行 -->
+      <!-- 返回 -->
       <section v-if="goBack" @click="back">
         <svg class="goback" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
           <polyline points="12,18 4,9 12,0" style="fill: none; stroke: rgb(255, 255, 255); stroke-width: 2;">
           </polyline>
         </svg>
       </section>
+      <!-- 地区 -->
+      <section v-else-if="this.$route.path == '/'" @click="region">
+        <router-link class="city" :to="'/'">
+        {{region}}
+        </router-link>
+      </section>
+      <!-- 搜索 -->
       <router-link :to="'/'" v-else>
         <svg class="search" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
           <circle cx="8" cy="8" r="7" stroke="rgb(255,255,255)" stroke-width="1" fill="none" />
@@ -15,8 +23,13 @@
         </svg>
       </router-link>
     </div >
-    <a href="" class="head_center">
-      <span class="title_text ellipsis">{{title}}</span>
+    <a href="#" class="head_center">
+      <!-- 搜索框 -->
+      <div class="searchInput" v-if="this.$route.path == '/'">
+        请输入
+      </div>
+      <!-- 标题 -->
+      <span class="title_text ellipsis" v-else>{{title}}</span>
     </a>
     <div class="head_right">
       <!-- <router-link :to="userInfo? '/profile' : '/login' "> -->
@@ -39,6 +52,7 @@
 export default {
   data() {
     return {
+
     } 
   },
   props: {
@@ -53,6 +67,10 @@ export default {
     login: {
       type: Boolean,
       default: true
+    },
+    region: {
+      type: String,
+      default: '北京',
     }
   },
   methods: {
@@ -78,11 +96,11 @@ export default {
 header a {
   font-size: 0.65rem;
   height: 1rem;
-  width: 20%;
   display: block;
 }
 a.head_center {
-  width: 50%;
+  width: 60%;
+  margin-left: 1rem;
   font-size: 0.8rem;
   line-height: 1rem;
   color: #fff;
@@ -90,6 +108,41 @@ a.head_center {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  .searchInput {
+    display: block;
+    height: 100%;
+    background: rgba(33, 126, 212, 0.75);
+    padding: 0 0 0 1.17rem;
+    border-radius: .2rem;
+    color: rgb(174, 206, 235);
+    font-size: 0.5rem;
+    text-align: left;
+    &::after {
+      width: .3rem;
+      content: "";
+      display: block;
+      border-top: 1px solid #fff;
+      border-radius: .35rem;
+      position: absolute;
+      left: 4.36rem;
+      bottom: 0.82rem;
+      width: .23rem;
+      height: 0;
+      -webkit-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+    &::before {
+      width: .3rem;
+      content: "";
+      display: block;
+      height: .31rem;
+      border: 1px solid #fff;
+      border-radius: .43rem;
+      position: absolute;
+      left: 4.1rem;
+      bottom: .85rem;
+    }
+  }
 }
 .head_left { 
   width: 0.9rem;
@@ -105,7 +158,28 @@ a.head_center {
     height: 1rem;
     line-height: 2.2rem;
     margin-left: .4rem;
-  } 
+  }
+  .city {
+    width: 2rem;
+    height: 1rem;
+    font-size: 0.6rem;
+    line-height: .8rem;
+    color: #fff;
+  }
+  .city::after {
+      width: 0.3rem;
+      content: "";
+      border: 1px solid #fff;
+      position: absolute;
+      left: 2.3rem;
+      top: 36%;
+      display: block;
+      height: 0.3rem;
+      border-top: none;
+      border-right: none;
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+    }
 }
 .head_right {  
   width: 0.9rem;

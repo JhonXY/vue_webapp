@@ -16,17 +16,11 @@ if ('addEventListener' in document) {
 
 router.beforeEach((to, from, next) => {
   store.dispatch('changeLoad', { isLoading: true })
-  console.log('====================================');
-  console.log('before');
-  console.log('====================================');
   next(); // 必须的
 })
 
 router.afterEach((to, from, next) => {
   store.dispatch('changeLoad', { isLoading: false })
-  console.log('====================================');
-  console.log('after');
-  console.log('====================================');
 })
 
 Vue.config.productionTip = false

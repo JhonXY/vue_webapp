@@ -1,7 +1,7 @@
 <template>
   <div class="welcome" :class="{ hide: isHide}">
     <div class="img-wrap">
-      <!-- <img src="../assets/images/welcome.gif" alt="" width="100%" height="100%"> -->
+      <img src="../../assets/images/welcome.gif" alt="">
     </div>
     <div class="text-wrap">
       <div class="logo"></div>
@@ -56,9 +56,13 @@ export default {
   .img-wrap {
     position: relative;
     flex: 0 1 auto;
-    background: url(../../assets/images/welcome.gif) no-repeat center;
-    height: 75rem;
+    // background: url(../../assets/images/welcome.gif) no-repeat center;
+    height: 25rem;
     width: 100%;
+    img {
+      height: 100%;
+      width: auto;
+    }
   }
   .text-wrap {
     flex: 0 1 auto;
