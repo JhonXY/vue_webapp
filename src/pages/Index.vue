@@ -42,8 +42,8 @@ export default {
   data() {
     return {
       imgs: List,
+      // 每个组件通过为head-top绑定head对象进行head定制
       head: {
-        title: '这里是一个标题lalalallalalalalal',
         goBack: false
       }
     }
