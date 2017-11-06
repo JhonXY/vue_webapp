@@ -12,7 +12,7 @@ var service = axios.create({
 
 service.interceptors.request.use(config => {
   // 对即将发送的request请求做相关修改
-  config.headers['X-Token'] = 'admin' // 可在此添加token
+  // config.headers['X-Token'] = 'admin' // 可在此添加token
   console.log(config)  // for debug
   return config  // 一定要返回
 }, error => {
@@ -23,12 +23,12 @@ service.interceptors.request.use(config => {
 
 service.interceptors.response.use(response => {
   // response提前批量处理错误信息
-  const res = response.data;
-  // if(res.status !== '0') {
-  //   console.log('请求有误')  // for debug
-  // } else {
-  //   return response  // 一定要返回
-  // }
+  const res = response;
+  if(res.status !== 200) {
+    console.log('请求有误')  // for debug
+  } else {
+    return response  // 一定要返回
+  }
   return response // 测试post时不用验证了，用的别人的接口
 }, error => {
   // 请求接受出错

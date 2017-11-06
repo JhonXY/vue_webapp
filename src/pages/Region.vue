@@ -10,8 +10,8 @@
     </div>
     <div class="address_items" id="address_result" v-if="searchData.length > 0">  
       <div class="address_item" v-for="(item,index) in searchData" :key="index">  
-        <div class="title">{{ item.name }}</div>  
-        <div class="description">{{ item.pname }}{{ item.cityname }}{{ item.address }}</div>  
+        <span class="title">{{ item.name }} </span>  
+        <span class="description">{{ item.pname }}{{ item.cityname }}{{ item.address }}</span>  
       </div>  
     </div>    
   </div>
@@ -26,7 +26,6 @@ export default {
     return {
       head: {
         goBack: true,
-        title: '选择城市'
       },
       searchData: [],
     }
@@ -42,8 +41,11 @@ export default {
       return '当前定位：'+ this.location
     }
   },
-  mounted(){
-    this.showCityInfo()
+  created(){
+    this.head['title'] = this.location
+    console.log('====================================');
+    console.log(this.head);
+    console.log('====================================');
   },
   methods: {
     keyUpSearch () { 
@@ -53,7 +55,7 @@ export default {
         var placeSearch = new AMap.PlaceSearch({ 
             pageSize: 12, 
             pageIndex: 1, 
-            city: "成都", 
+            city: _this.location, 
             cityLimit: 'true', 
             panel: 'temp'
         });
@@ -128,16 +130,22 @@ export default {
 .address_items {
   .address_item {
     .title {
+      float: left;
+      display: block;
       width: 30%;
       text-overflow: ellipsis;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .description {
-      width: 60%;
+      display: block;
+      max-width: 70%;
+      overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    line-height: 1rem;
+    line-height: 1.5rem;
     font-size: .6rem;
     padding: 0 0.28rem;
     background-color: #FDFDFC;

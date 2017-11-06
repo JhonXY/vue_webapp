@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Index from '../pages/Index.vue';
 import Login from '../pages/Login.vue';
 import Region from '../pages/Region.vue';
+import City from '../pages/City.vue';
 
 Vue.use(Router)
 
@@ -21,6 +22,11 @@ export const routes = [
     path: '/region',
     name: 'region',
     component: Region
+  },
+  {
+    path: '/city',
+    name: 'city',
+    component: City
   }
 ]
 

@@ -11,7 +11,7 @@
       </section>
       <!-- 地区 -->
       <section v-else-if="this.$route.path == '/'">
-        <router-link class="city" :to="'/region'">
+        <router-link class="city" :to="'/city'">
         {{location}}
         </router-link>
       </section>
@@ -26,9 +26,11 @@
 
     <a href="#" class="head_center">
       <!-- 搜索框 -->
-      <div class="searchInput" v-if="this.$route.path == '/'">
+      <router-link class="searchInput" :to="'/region'" v-if="this.$route.path == '/'">
         请输入
-      </div>
+      </router-link>
+      <!-- 地区 -->
+      <span class="title_text ellipsis" v-else-if="this.$route.path == '/region'">{{location}}</span>
       <!-- 标题 -->
       <span class="title_text ellipsis" v-else>{{title}}</span>
     </a>
@@ -40,7 +42,10 @@
       $route.router	所属路由器以及所属组件信息
       $route.matched	数组，包含当前匹配的路径中所包含的所有片段所对应的配置参数对象。
       $route.name	当前路径名字 -->
-      <router-link :to="'/login'" v-if="login" style="touch-action: none;" class="user_avator">
+      <router-link :to="'/city'" v-if="this.$route.path == '/region'">
+        <span class="right_text">切换城市</span>
+      </router-link>
+      <router-link :to="'/login'" v-else style="touch-action: none;" class="user_avator">
         <svg class="user_avator_svg" viewBox="0 0 28 33" id="user" width="100%" height="100%">
           <path fill-rule="evenodd" d="M20.798 19.289c2.636-2.002 4.215-5.091 4.215-8.437 0-5.886-4.845-10.647-10.808-10.647S3.397 4.966 3.397 10.852c0 3.345 1.578 6.433 4.212 8.435l.264-2.678C4.358 18.32 1.591 21.403.168 25.187l1.478.556v-1.579c-1.485.73-1.485.73-1.501 1.079-.054.188-.054.188-.069.278a2.58 2.58 0 0 0-.026.229 9.112 9.112 0 0 0-.019.4c-.008.265-.014.617-.018 1.039-.005.511-.006 1.037-.006 1.451v.027c-.004 1.732 1.41 3.129 3.154 3.129h22.082a3.18 3.18 0 0 0 3.172-3.153l.011-1.305.008-.897.003-.296.001-.083v-.022-.006-.001l.002-.278-.093-.262c-1.385-3.918-4.203-7.122-7.812-8.88l.263 2.678zm-1.911-2.516l-2.045 1.553 2.309 1.125c2.856 1.392 5.106 3.949 6.218 7.093l-.09-.54V26.033l-.001.083-.003.296-.008.897-.011 1.305c0 .01-.011.021-.013.021H3.161c-.007 0 .005.011.005.032v-.031c0-.404.001-.92.006-1.418.004-.4.01-.732.017-.969.004-.121.008-.212.012-.262l-.006.043c-.009.06-.009.06-.058.229-.01.336-.01.336-1.49 1.063H2.74l.385-1.024c1.141-3.035 3.35-5.495 6.131-6.849l2.309-1.124-2.045-1.554c-1.859-1.412-2.964-3.576-2.964-5.92 0-4.129 3.418-7.488 7.649-7.488s7.649 3.359 7.649 7.488c0 2.344-1.106 4.509-2.966 5.921z" class="path1">
           </path>
@@ -56,7 +61,6 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-
     } 
   },
   computed: {
@@ -67,7 +71,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '缺少一个标题',
+      default: '标题',
     },
     goBack: {
       type: Boolean,
@@ -121,7 +125,7 @@ a.head_center {
     display: block;
     height: 100%;
     background: rgba(33, 126, 212, 0.75);
-    padding: 0 0 0 1.17rem;
+    padding: 0 0 0 1rem;
     border-radius: .2rem;
     color: rgb(174, 206, 235);
     font-size: 0.5rem;
@@ -130,7 +134,7 @@ a.head_center {
       width: .3rem;
       content: "";
       display: block;
-      border-top: 1px solid #fff;
+      border-top: 1px solid #aeceeb;
       border-radius: .35rem;
       position: absolute;
       left: 4.36rem;
@@ -145,7 +149,7 @@ a.head_center {
       content: "";
       display: block;
       height: .31rem;
-      border: 1px solid #fff;
+      border: 1px solid #aeceeb;
       border-radius: .43rem;
       position: absolute;
       left: 4.1rem;
@@ -163,6 +167,7 @@ a.head_center {
   .search {
     width: 0.8rem;
     height: 0.8rem;
+    margin-top: .6rem;
   }
   .goback {
     left: 0.4rem;
@@ -202,6 +207,10 @@ a.head_center {
   height: 100%;  
   width: 0.9rem;
   margin-right: .8rem;
+  position: relative;
+  a {
+    height: 100%;
+  }
   .user_avator{
     line-height: 1.95rem;
     height: 100%;
@@ -211,6 +220,18 @@ a.head_center {
     fill: #fff;
     width: 0.8rem;
     height: 0.8rem;
+  }
+  .right_text {
+    display: block;
+    position: absolute;
+    top: .5rem;
+    right: -.2rem;
+    font-size: 0.6rem;
+    line-height: 1rem;
+    color: #fff;
+    text-align: center;
+    height: 100%;
+    word-break: keep-all;
   }
 }
 </style>
