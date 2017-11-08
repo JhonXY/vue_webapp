@@ -32,6 +32,12 @@ export const routes = [
 
 export default new Router({
   mode: 'history',
-  // scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        selector: to.hash
+      }
+    }
+  },
   routes
 })

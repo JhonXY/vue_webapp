@@ -3,7 +3,7 @@ import axios from 'axios'
 // 返回一个axios待配置实例
 var service = axios.create({
   baseURL: process.env.BASE_API, // api地址的baseurl，从环境接口配置文件中获取，根据生产环境与开发环境有所不同
-  timeout: 3000, // 默认超时处理界限
+  timeout: 5000, // 默认超时处理界限
   // 也可以在此处直接添加header传入的内容
   // headers: {
   //   'X-Token': 'admin'
