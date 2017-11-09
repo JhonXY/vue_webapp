@@ -68,7 +68,7 @@ export default {
             } else {
                 _this.$store.dispatch('changeLocation', result.info)
             }
-        });
+          });
         })
     }
   }

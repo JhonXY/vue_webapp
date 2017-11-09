@@ -17,9 +17,9 @@
       </span>
     </header>
     <ul>
-      <li v-for="(item,index) in itemList" :key="index">
+      <router-link :to="{name: 'agritainment', params: item}" tag="li" v-for="(item,index) in itemList" :key="index">
         <shop-item v-bind="item"></shop-item>
-      </li>
+      </router-link>
     </ul>
   </div>
 </template>
@@ -35,28 +35,32 @@ export default {
           monthlySales: 123,
           sendFee: 20,
           shipFee: 5,
-          distance: 14.5
+          distance: 14.5,
+          rate: 2.1
         },
         {
           title: '效果展示',
           monthlySales: 123,
           sendFee: 20,
           shipFee: 5,
-          distance: 14.5
+          distance: 14.5,
+          rate: 8.1
         },
         {
           title: '效果展示',
           monthlySales: 123,
           sendFee: 20,
           shipFee: 5,
-          distance: 14.5
+          distance: 14.5,
+          rate: 9.1
         },
         {
           title: '效果展示',
           monthlySales: 123,
           sendFee: 20,
           shipFee: 5,
-          distance: 14.5
+          distance: 14.5,
+          rate: 1.1
         },
       ]
     }

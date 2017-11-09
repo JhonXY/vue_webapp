@@ -4,6 +4,9 @@ import Index from '../pages/Index.vue';
 import Login from '../pages/Login.vue';
 import Region from '../pages/Region.vue';
 import City from '../pages/City.vue';
+import Agritainment from '../pages/Agritainment.vue';
+import MoreDetails from '../pages/agritainment/MoreDetails.vue';
+import MapDirection from '../pages/agritainment/MapDirection.vue';
 
 Vue.use(Router)
 
@@ -27,6 +30,19 @@ export const routes = [
     path: '/city',
     name: 'city',
     component: City
+  },
+  {
+    path: '/agritainment',
+    name: 'agritainment',
+    component: Agritainment,
+  },
+  {
+    path: '/more',
+    component: MoreDetails
+  },
+  {
+    path: '/mapDirection',
+    component: MapDirection
   }
 ]
 
