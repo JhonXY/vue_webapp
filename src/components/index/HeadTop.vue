@@ -97,11 +97,12 @@ export default {
 .head_container {
   height: 1.95rem;
   display: flex;
-  z-index: 100;
+  z-index: 102;
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
+  right:0;bottom:0;
   background-color: #41a2fc;
   justify-content: space-between;
   align-items: center;
