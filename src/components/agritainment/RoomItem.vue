@@ -1,6 +1,6 @@
 <template>
   <li class="room-item">
-    <div class="room-item-l">
+    <div class="room-item-l" @click.stop="showDetails">
       <div class="room-img">
         <img :src="imgsrc" alt="">
       </div>
@@ -13,7 +13,12 @@
     </div>
     <div class="room-item-r">
       <p>均￥<span class="room-price">{{price}}</span></p>
-      <button class="room-reserve">预定</button>
+      <router-link
+      tag="button"
+      :to="'/order'" 
+      class="room-reserve"
+      >预定
+      </router-link>
     </div>
   </li>
 </template>
@@ -21,6 +26,11 @@
 <script>
 export default {
   props: ['imgsrc', 'name', 'introduce', 'breakfirst', 'price', 'cancel'],
+  methods: {
+    showDetails(){
+      this.$emit('show', this.name)
+    }
+  }
 }
 </script>
 
@@ -60,8 +70,7 @@ export default {
         word-break: break-all;
         display: -webkit-box;
         -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        word-break: break-all; 
+        -webkit-box-orient: vertical; 
       }
       & p:nth-child(3) {
         color: #ffad05;

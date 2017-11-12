@@ -43,9 +43,6 @@ export default {
   },
   created(){
     this.head['title'] = this.location
-    console.log('====================================');
-    console.log(this.head);
-    console.log('====================================');
   },
   methods: {
     keyUpSearch () { 

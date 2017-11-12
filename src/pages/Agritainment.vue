@@ -56,16 +56,29 @@
           <p>离店</p>
           <input type="text" v-model="endTime" placeholder="离店日期" readonly>
         </div>
-        <date-picker v-show="showPicker" @confirm="confirm" @hide-time-picker="hideDatePicker" @initDay="initDay"></date-picker>
       </div>
       <ul class="room-list">
-          <room-item 
+          <room-item
+          @show="getRoomDetails"
           v-bind="item" 
           v-for="(item, index) in roomList" 
           :key="index">
           </room-item>
       </ul>
     </div>
+    <date-picker 
+    v-show="showPicker" 
+    @confirm="confirm" 
+    @hideDatePicker="hideDatePicker" 
+    @initDay="initDay"></date-picker>
+    <room-details 
+    ref="details" 
+    :title="roomShowName" 
+    v-show="showRoomDetails" 
+    @hideRoomDetails="hideRoomDetails"></room-details>
+    <shade-mask 
+    ref="mask" 
+    @closeMask="hideDialog"></shade-mask>
   </div>
 </template>
 
@@ -74,6 +87,8 @@ import HeadTop from '@/components/index/HeadTop.vue';
 import Rating from '@/components/agritainment/Rating.vue';
 import DatePicker from '@/components/agritainment/DatePicker.vue';
 import RoomItem from '@/components/agritainment/RoomItem.vue';
+import RoomDetails from '@/components/agritainment/RoomDetails.vue';
+import shadeMask from '@/components/layout/shadeMask.vue';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -121,40 +136,67 @@ export default {
           cancel: '当日19点前可取消'
         }
       ],
-      showPicker: false,
-      beginTime: '',
-      endTime: '',
-      howLong: ''
+      showPicker: false,  // 控制日期选择显示
+      beginTime: '',  // 住店时间
+      endTime: '',  // 离店时间
+      howLong: '',  // 住多少天
+      showRoomDetails: false,  // 控制房间详情的显示
+      roomShowName: '' // 哪个房间需要显示详情
     }
   },
   computed: {
     details(){
-      return this.$route.params
+      return this.$route.params;
     },
   },
   components: {
     HeadTop,
     Rating,
     DatePicker,
-    RoomItem
+    RoomItem,
+    RoomDetails,
+    shadeMask
   },
   methods: {
     showDatePicker(){
       this.showPicker = true;
+      this.$refs.mask.on = true;
     },
     hideDatePicker(){
       this.showPicker = false;
+      this.$refs.mask.on = false;
     },
     confirm(startDate, endDate, howLong){
       this.beginTime = startDate;
       this.endTime = endDate;
       this.howLong = howLong;
       this.showPicker = false;
+      this.$refs.mask.on = false;
     },
     initDay(startDate, endDate, howLong){
       this.beginTime = startDate;
       this.endTime = endDate;
-      this.howLong = howLong
+      this.howLong = howLong;
+    },
+    getRoomDetails(title){
+      this.roomShowName = title;
+      this.showRoomDetails = true;
+      this.$refs.mask.on = true;
+      setTimeout(()=>{
+        this.$refs.details.hide = false;
+      }, 100)
+    },
+    hideRoomDetails(){
+      this.$refs.details.hide = true;
+      setTimeout(()=>{
+        this.showRoomDetails = false;
+        this.$refs.mask.on = false;
+      }, 300)
+    },
+    // 遮罩层综合
+    hideDialog(){
+      this.hideDatePicker()
+      this.hideRoomDetails()
     }
   }
 }

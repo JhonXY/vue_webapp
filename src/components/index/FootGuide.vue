@@ -131,19 +131,19 @@
     </defs>
   </svg>
 
-    <section class="guide_item">        
+    <router-link tag="section" :to="'/'" class="guide_item">        
       <svg class="icon_style">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('msite') !== -1? '#msiteActive' : '#msite'"></use>
       </svg>
-      <span>外卖</span>
-    </section>
+      <span>首页</span>
+    </router-link>
       
-    <section class="guide_item">
+    <router-link tag="section" :to="'/region'" class="guide_item">
       <svg class="icon_style">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('search') !== -1? '#findActive' : '#find'"></use>
       </svg> 
       <span>搜索</span>
-    </section>
+    </router-link>
     
     <section class="guide_item">
       <svg class="icon_style">

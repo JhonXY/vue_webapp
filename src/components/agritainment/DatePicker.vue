@@ -1,6 +1,7 @@
 <template>
     <div class="picker-box">
-        <div class="mask" @click="hideDatePicker"></div>
+        <!-- <div class="mask" @click.stop="hideDatePicker"></div> -->
+        <shade-mask ref="mask" @closeMask="hideDatePicker"></shade-mask>
         <div class="picker-box-c">
             <div class="picker-header">
                 <div class="picker-prev" @click="preMon"> << </div>
@@ -39,12 +40,13 @@
                 <div class="picker-button-start"><span></span>入店</div>
                 <div class="picker-button-end"><span></span>离店</div>
             </div>
-            <div class="confim" @click="confimDate">确定</div>
+            <div class="confim" @click.stop="confimDate">确 定</div>
         </div>
     </div>
 </template>
 
 <script>
+import shadeMask from '@/components/layout/shadeMask.vue'
     export default {
         data () {
             return {
@@ -55,6 +57,9 @@
                 today: '',
                 picker: []
             }
+        },
+        components: {
+            shadeMask
         },
         mounted () {
             let date = new Date()
@@ -211,8 +216,8 @@
                 let result = new Date((new Date(date)).getTime() + 6 * 24 * 60 * 60 * 1000);
                 return result.getFullYear() + "-" + (result.getMonth() + 1) + "-" + result.getDate();
             },
-            confimDate (e) {
-                e.stopPropagation();
+            confimDate () {
+                // e.stopPropagation();
                 this.$emit('showTimePicker')
                 let howlong =  this.howDateLong(this.startEnv, this.endEnv)
                 this.$emit('confirm', this.startEnv, this.endEnv, howlong)
@@ -294,9 +299,6 @@
                 let dates = Math.abs((startTime - endTime))/(1000*60*60*24); 
                 return dates; 
             }
-        },
-        computed: {
-            
         }
     }
 </script>
@@ -308,40 +310,41 @@
 
 .picker-box {
     z-index: 100;
-    font-size: 14px;
+    font-size: .6rem;
     .picker-box-c {
         position: fixed;
         background: #fff;
-        width: px2rem(700px);
-        height: px2rem(870px);
+        width: 12rem;
+        // height: 12rem;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        border-radius: px2rem(10px);
+        border-radius: .3rem;
         z-index: 1002;
         .picker-header {
             display: flex;
             justify-content: space-between;
-            height: px2rem(100px);
-            line-height: px2rem(100px);
+            height: 1.5rem;
+            line-height: 1.5rem;
             .picker-prev,
             .picker-next {
-                font-size: 10px;
-                width: px2rem(200px);
+                width: 25%;
+                font-size: .4rem;
+                // width: px2rem(200px);
                 text-align: center;
             }
             .picker-year {
                 color: #76D49B;
-                font-weight: 700;
+                font-weight: 600;
             }
         }
         .picker-content {
             .picker-week {
                 display: flex;
                 .picker-weekday {
-                    width: px2rem(100px);
-                    height: px2rem(60px);
-                    line-height: px2rem(60px);
+                    width: 14.285%;
+                    height: 1rem;
+                    line-height: 1rem;
                     text-align: center;
                 }
             }
@@ -350,10 +353,10 @@
                 flex-wrap: wrap;
                 .picker-day {
                     position: relative;
-                    width: px2rem(100px);
-                    height: px2rem(80px);
-                    line-height: px2rem(80px);
-                    margin: px2rem(2px) 0;
+                    width: 14.285%;
+                    height: 1.2rem;
+                    line-height: 1.2rem;
+                    margin: .1rem 0;
                     color: #555;
                     font-weight: 600;
                     text-align: center;
@@ -366,8 +369,8 @@
                         right: 0;
                         width: 0;
                         height: 0;
-                        border-top: 8px solid #1486f5;
-                        border-left: 8px solid transparent;
+                        border-top: .3rem solid #1486f5;
+                        border-left: .3rem solid transparent;
                     }
                 }
                 .start {
@@ -390,8 +393,8 @@
         }
         .picker-footer {
             width: 90%;
-            height: px2rem(100px);
-            line-height: px2rem(100px);
+            height: 1.5rem;
+            line-height: 1.5rem;
             margin: 0 auto;
             display: flex;
             border-bottom: 1px solid #eee; 
@@ -403,21 +406,21 @@
                 span {
                     width: 0;
                     display: inline-block;
-                    margin-right: px2rem(20px);
-                    border-top: 8px solid #0059bc;
-                    border-left: 8px solid transparent;
+                    margin-right: .26rem;
+                    border-top: .3rem solid #0059bc;
+                    border-left: .3rem solid transparent;
                 }
             }
             .picker-button-start,
             .picker-button-end {
                 span {
-                    width: px2rem(40px);
-                    height: px2rem(40px);
+                    width: .5rem;
+                    height: .5rem;
                     background: #5ec443;
                     display: inline-block;
-                    margin-right: px2rem(20px);
+                    margin-right: .2rem;
                     vertical-align: middle;
-                    margin-bottom: px2rem(5px);
+                    margin-bottom: .1rem;
                 }
             }
             .picker-button-end {
@@ -428,11 +431,11 @@
         }
         .confim {
             width: 100%;
-            height: px2rem(100px);
-            line-height: px2rem(100px);
+            height: 1.5rem;
+            line-height: 1.5rem;
             text-align: center;
-            font-size: 14px;
-            color: #76D49B;
+            font-size: .7rem;
+            color: #1cc4f4;
             cursor: pointer;
         }
     }

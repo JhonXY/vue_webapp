@@ -5,6 +5,7 @@ import Login from '../pages/Login.vue';
 import Region from '../pages/Region.vue';
 import City from '../pages/City.vue';
 import Agritainment from '../pages/Agritainment.vue';
+import Order from '../pages/order.vue';
 import MoreDetails from '../pages/agritainment/MoreDetails.vue';
 import MapDirection from '../pages/agritainment/MapDirection.vue';
 
@@ -43,6 +44,10 @@ export const routes = [
   {
     path: '/mapDirection',
     component: MapDirection
+  },
+  {
+    path: '/order',
+    component: Order
   }
 ]
 

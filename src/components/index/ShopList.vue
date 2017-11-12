@@ -44,15 +44,7 @@ export default {
           sendFee: 20,
           shipFee: 5,
           distance: 14.5,
-          rate: 8.1
-        },
-        {
-          title: '效果展示',
-          monthlySales: 123,
-          sendFee: 20,
-          shipFee: 5,
-          distance: 14.5,
-          rate: 9.1
+          rate: 5.0
         },
         {
           title: '效果展示',
@@ -61,6 +53,14 @@ export default {
           shipFee: 5,
           distance: 14.5,
           rate: 1.1
+        },
+        {
+          title: '效果展示',
+          monthlySales: 123,
+          sendFee: 20,
+          shipFee: 5,
+          distance: 14.5,
+          rate: 2.8
         },
       ]
     }
