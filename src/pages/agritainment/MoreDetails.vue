@@ -1,5 +1,8 @@
 <template>
-  <div class="more-information">
+  <div 
+  class="more-information" 
+  @touchmove.prevent 
+  onmousewheel="return false;">
     <head-top v-bind="head"></head-top>
     <ul>
       <li v-for="(item, index) in allServices" :key="index">
@@ -24,7 +27,7 @@ export default {
     return {
       head:{
         goBack: true,
-        title: this.$route.query.title
+        title: this.$route.query.name
       },
       // 需要接口
       allServices: [
@@ -71,10 +74,16 @@ export default {
 
 <style lang="scss" scoped>
 .more-information {
-  margin-top: 1.95rem;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1005;
+  background: #fff;
 }
 ul {
+  margin-top: 1.95rem;
   li {
     background: #f0f3f5;
     margin-bottom: .5rem;

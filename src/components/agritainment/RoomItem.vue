@@ -15,7 +15,7 @@
       <p>均￥<span class="room-price">{{price}}</span></p>
       <router-link
       tag="button"
-      :to="'/order'" 
+      :to="{path: '/order', query: {order: this.forOrder }}" 
       class="room-reserve"
       >预定
       </router-link>
@@ -25,6 +25,16 @@
 
 <script>
 export default {
+  data(){
+    return {
+      forOrder: {
+        name: this.$props.name,
+        breakfirst: this.$props.breakfirst,
+        price: this.$props.price,
+        cancel: this.$props.cancel,
+      }
+    }
+  },
   props: ['imgsrc', 'name', 'introduce', 'breakfirst', 'price', 'cancel'],
   methods: {
     showDetails(){

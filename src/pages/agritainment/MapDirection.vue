@@ -1,5 +1,7 @@
 <template>
-  <div class="map-direction">
+  <div class="map-direction" 
+  @touchmove.prevent 
+  onmousewheel="return false;">
     <head-top v-bind="head"></head-top>
     <div id="container" style="width:16rem; height:26.4rem;"></div>
   </div>
@@ -113,8 +115,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.map-direction {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1005;
+  background: #fff;
+}
 #container {
   margin-top: 1.95rem;
+  height: 100%;
 }
 </style>
 

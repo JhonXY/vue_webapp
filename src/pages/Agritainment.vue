@@ -1,5 +1,6 @@
 <template>
   <div class="Agritain">
+    <div>
     <head-top v-bind="head"></head-top>
     <div class="shop-swipe">
       <div class="shop-title">
@@ -11,7 +12,7 @@
     </div>
     <ul class="shop-introduce">
       <li>
-        <rating :rate="details.rate"></rating>
+        <rating :rate="moreDetails.rate"></rating>
         <div class="right-con">
           <span class="right-content">评价</span>
         </div>
@@ -28,7 +29,7 @@
         </div>
         <div class="right-con">
           <router-link 
-          :to="{path: '/mapDirection', query: moreDetails.address}" 
+          :to="{path: '/agritainment/mapDirection', query: moreDetails.address}" 
           tag="span"
           class="right-content">地图</router-link>
         </div>
@@ -39,13 +40,24 @@
         </div>
         <div class="right-con">
           <router-link 
-          :to="{path: '/more', query: details}" 
+          :to="{path: '/agritainment/more', query: {name: moreDetails.name}}" 
           tag="span" 
           class="right-content">详情</router-link>
         </div>
       </li>
     </ul>
     <div class="main-check" style="margin-top: .5rem;">
+      <div class="main-check-bar">
+        <div>
+          <span class="check-live active">住店</span>
+        </div>
+        <div>
+          <router-link 
+          :to="{path: '/shopCar', query: {name: moreDetails.name}}" 
+          tag="span" 
+          class="check-live">点菜</router-link>
+        </div>
+      </div>
       <div @click="showDatePicker" class="check-bar">
         <div class="live-in">
           <p>入住</p>
@@ -67,19 +79,26 @@
       </ul>
     </div>
     <date-picker 
-    v-show="showPicker" 
-    @confirm="confirm" 
-    @hideDatePicker="hideDatePicker" 
-    @initDay="initDay"></date-picker>
+      v-show="showPicker" 
+      @confirm="confirm" 
+      @hideDatePicker="hideDatePicker" 
+      @initDay="initDay">
+    </date-picker>
     <room-details 
-    ref="details" 
-    :title="roomShowName" 
-    v-show="showRoomDetails" 
-    @hideRoomDetails="hideRoomDetails"></room-details>
+      ref="details" 
+      :title="roomShowName" 
+      v-show="showRoomDetails" 
+      @hideRoomDetails="hideRoomDetails">
+    </room-details>
     <shade-mask 
-    ref="mask" 
-    @closeMask="hideDialog"></shade-mask>
-  </div>
+      ref="mask" 
+      @closeMask="hideDialog">
+    </shade-mask>
+    </div>
+  <transition name="router-slid" mode="out-in">
+    <router-view></router-view>
+  </transition>
+</div>
 </template>
 
 <script>
@@ -107,7 +126,8 @@ export default {
           sec: '万达商圈',
           coordinates: [116.397428, 39.90923]
         },
-        tele: '18052664969'
+        tele: '18052664969',
+        rate: 3.1
       },
       // 需要接口
       roomList:[
@@ -144,6 +164,9 @@ export default {
       roomShowName: '' // 哪个房间需要显示详情
     }
   },
+  mounted(){
+    this.$store.dispatch('changeShopName', this.moreDetails.name)
+  },
   computed: {
     details(){
       return this.$route.params;
@@ -170,6 +193,9 @@ export default {
       this.beginTime = startDate;
       this.endTime = endDate;
       this.howLong = howLong;
+      this.$store.dispatch('changeHowLong', howLong)
+      this.$store.dispatch('changeCheckIn', startDate)
+      this.$store.dispatch('changeCheckOut', endDate)
       this.showPicker = false;
       this.$refs.mask.on = false;
     },
@@ -177,6 +203,9 @@ export default {
       this.beginTime = startDate;
       this.endTime = endDate;
       this.howLong = howLong;
+      this.$store.dispatch('changeHowLong', howLong)
+      this.$store.dispatch('changeCheckIn', startDate)
+      this.$store.dispatch('changeCheckOut', endDate)
     },
     getRoomDetails(title){
       this.roomShowName = title;
@@ -203,12 +232,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.Agritain {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 100%;
+}
 .shop-swipe {
   margin-top: 1.95rem;
   width: 100%;
   height: 10rem;
   background: #666;
   position: relative;
+  overflow: hidden;
   .vr {
     position: absolute;
     top: .5rem;
@@ -335,6 +375,25 @@ export default {
     color: #666;
   }
 }
+.main-check-bar {
+  background: #fff;
+  display: flex;
+  font-size: .7rem;
+  line-height: 1.5rem;
+  height: 1.5rem;
+  justify-content: space-around;
+  div {
+     width: 50%;
+     display: flex;
+     justify-content: space-around;
+  }
+  span {
+    color: #333;
+  }
+  span.active {
+    border-bottom: 2px solid #FFD161;;
+  }
+}
 .check-bar {
   border-top: 1px solid #e2e2e2;
   text-align: center;
@@ -388,6 +447,13 @@ export default {
     align-items: center;
     box-sizing: border-box;
   }
+}
+.router-slid-enter-active, .router-slid-leave-active {
+    transition: all .4s;
+}
+.router-slid-enter, .router-slid-leave-active {
+    transform: translate3d(2rem, 0, 0);
+    opacity: 0;
 }
 </style>
 

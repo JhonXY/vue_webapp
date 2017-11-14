@@ -1,5 +1,8 @@
 <template>
-<div :class="hide ? 'room-details' : 'room-details getout'">
+<div 
+:class="hide ? 'room-details' : 'room-details getout'"
+@touchmove="eps"  
+onmousewheel="return false;">
   <section class="room-details-header">
     <h2>
       {{title}}
@@ -33,7 +36,7 @@
   </div>
   <div class="room-details-footer">
     <div class="room-details-price">￥{{roomDetails.price}}</div>
-    <div v-if="roomDetails.left > 0" class="can-pay">预定</div>
+    <router-link :to="{path: '/order', query: {order: this.roomDetails}}" tag="div" v-if="roomDetails.left > 0" class="can-pay">预定</router-link>
     <div v-else class="none">满房</div>    
   </div>
 </div>
@@ -41,14 +44,11 @@
 
 <script>
 export default {
-  // 根据传入的title获取详情
-  props:['title'],
-  components: {
-  },
   data(){
     return {
-      // 获取到的细节
+      // 获取到的细节,另需接口或提前传入
       roomDetails:{
+        name: this.title,
         have:{
           '上网': 'WIFI',
           '卫浴': '独立',
@@ -68,6 +68,8 @@ export default {
       hide: true
     }
   },
+  // 根据传入的title获取详情
+  props: ['title'],
   methods: {
     hideRoomDetails(){
       this.$emit('hideRoomDetails')
@@ -75,6 +77,9 @@ export default {
     },
     toggle(){
       this.hide = !this.hide
+    },
+    eps(event){
+      event.stopPropagation();
     }
   }
 }
@@ -82,7 +87,7 @@ export default {
 
 <style lang="scss" scoped>
 .room-details {
-  height: 80%;
+  height: 55%;
   transform: translateY(100%);
   transition: transform .5s;
   position: fixed;
@@ -119,7 +124,7 @@ export default {
     margin-top: 2.2rem;
     width: 100%;
     // ?
-    // overflow-y: scroll;
+    overflow-y: scroll;
     .room-details-block {
       border-bottom: 1px solid #e5e5e5;
       margin: .5rem .5rem;

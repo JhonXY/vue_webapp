@@ -6,6 +6,7 @@ import Region from '../pages/Region.vue';
 import City from '../pages/City.vue';
 import Agritainment from '../pages/Agritainment.vue';
 import Order from '../pages/order.vue';
+import ShopCar from '../pages/ShopCar.vue';
 import MoreDetails from '../pages/agritainment/MoreDetails.vue';
 import MapDirection from '../pages/agritainment/MapDirection.vue';
 
@@ -36,29 +37,31 @@ export const routes = [
     path: '/agritainment',
     name: 'agritainment',
     component: Agritainment,
-  },
-  {
-    path: '/more',
-    component: MoreDetails
-  },
-  {
-    path: '/mapDirection',
-    component: MapDirection
+    children: [
+      {
+        path: 'more',
+        component: MoreDetails
+      },
+      {
+        path: 'mapDirection',
+        component: MapDirection
+      },
+    ]
   },
   {
     path: '/order',
     component: Order
+  },
+  {
+    path: '/shopCar',
+    component: ShopCar
   }
 ]
 
 export default new Router({
   mode: 'history',
   scrollBehavior(to, from, savedPosition) {
-    if (to.hash) {
-      return {
-        selector: to.hash
-      }
-    }
+    return { x: 0, y: 0 }
   },
   routes
 })
