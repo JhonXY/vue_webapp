@@ -107,7 +107,7 @@ import Rating from '@/components/agritainment/Rating.vue';
 import DatePicker from '@/components/agritainment/DatePicker.vue';
 import RoomItem from '@/components/agritainment/RoomItem.vue';
 import RoomDetails from '@/components/agritainment/RoomDetails.vue';
-import shadeMask from '@/components/layout/shadeMask.vue';
+import ShadeMask from '@/components/layout/shadeMask.vue';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -178,7 +178,7 @@ export default {
     DatePicker,
     RoomItem,
     RoomDetails,
-    shadeMask
+    ShadeMask
   },
   methods: {
     showDatePicker(){

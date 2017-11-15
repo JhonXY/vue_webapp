@@ -1,7 +1,8 @@
 <template>
 <div class="shopcar">
-  <header></header>
+  <head-top v-bind="head"></head-top>
   <section class="shopcar-food-container">
+    <!-- 购物车左右分栏菜单 -->
     <section class="menu-container">
       <section id="wrapper" class="menu-l" ref="wrapperMenu">
         <ul>
@@ -44,11 +45,16 @@
                   <span>￥</span>
                   <span>{{food.price}}</span>
                 </div>
-                <buy-car :shopId='shopId' :food='food'></buy-car>
+                <buy-car 
+                  :shopId='shopId' 
+                  :food='food'> 
+                </buy-car>
               </footer>
+              <!-- 更多小标 -->
               <div class="more-icon">
-                <div v-if="item.specialty" 
-                class="specialty">
+                <div 
+                  v-if="item.specialty" 
+                  class="specialty">
                   招牌
                 </div>
               </div>
@@ -57,24 +63,71 @@
         </ul>
       </section>
     </section>
+    <!-- 购物车底端条 -->
     <section class="buycar-container">
-      <span class="buy-car have"></span>
-      <div class="buycar-all"><span>¥1</span></div>
-      <a href="#" class="buycar-confirm"><span>结算</span></a>
-      <span class="buy-car-num">1</span>
+      <span 
+        :class="(totalNum>0)?'buy-car have':'buy-car'"
+        @click="toggleCartList">
+      </span>
+      <div class="buycar-all"><span>¥{{totalPrice}}</span></div>
+      <a href="#" :class="(totalNum>0)?'buycar-confirm buycar-confirm-can':'buycar-confirm'" @click="clear"><span>结算</span></a>
+      <span class="buy-car-num" v-if="totalNum>0">{{totalNum}}</span>
     </section>
-    <section class="buycar-list"></section>
+    <!-- 购物车遮罩 -->
+    <div
+      v-show="showCartList" 
+      class="mask" 
+      @click="hideBuyCar">
+    </div>
+    <!-- 购物车列表 -->
+    <transition name="toggle-cart">
+      <section class="cart-list" v-show="showCartList&&presentCartList.length">
+        <header>
+            <h4>购物车</h4>
+            <div @click="clear">
+              <span class="clear-cart">清空</span>
+            </div>
+        </header>
+        <section class="cart-food-items">
+          <ul>
+            <div
+            v-for="(item, index) in presentCartList" 
+            :key="index">
+              <li  
+                class="cart-food-li">
+                <div class="cart-item-name">
+                  <p>{{item.name}}</p>
+                </div>
+                <div class="cart-item-price">
+                  <span>¥</span>
+                  <span>{{item.price}}</span>
+                </div>
+                <section class="cart-list-control">
+                  <buy-car 
+                    :shopId='shopId' 
+                    :food='item'> 
+                  </buy-car>
+                </section>
+              </li>
+            </div>
+          </ul>
+        </section>
+      </section>
+    </transition>
   </section>
 </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll';
-import BuyCar from '@/components/shopcar/BuyCar.vue'
+import BuyCar from '@/components/shopcar/BuyCar.vue';
+import HeadTop from '@/components/index/HeadTop.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   data(){
     return {
+      //根据shopId来获取menuList
       shopId: 123,
       menuList: [
         {
@@ -204,20 +257,46 @@ export default {
       menuIndexChange: true,//解决选中index时，scroll监听事件重复判断设置index的bug
       shopListTop: [], //商品列表的高度集合
       foodScroll: null,  //食品列表scroll
-      showSpecs: false,//控制显示食品规格
-      specsIndex: 0, //当前选中的规格索引值
-      choosedFoods: null, //当前选中视频数据
       windowHeight: null, //屏幕的高度
+      presentCartList: [], // 当前shop的购物车(保存为数组),每个商品一个item
+      totalPrice: 0, // 当前shop的购物车总价
+      categoryNum: [], // 当前shop各个分类内添加的商品数(保存为数组),每个分类一个item,记录每个分类商品数
+      showCartList: false,
+      head:{
+        goBack: true,
+        title: '菜单详情'
+      },
     }
   },
   mounted(){
     this.windowHeight = window.innerHeight;
-    this.$nextTick(function(){
+    this.$nextTick(() => {
       this.getFoodListHeight()
+      this.initPresentCartList()
     })
   },
+  // 从本地读取购物车信息
+  beforeCreate(){
+    this.$store.commit('INIT_CART')
+  },
   components: {
-    BuyCar
+    BuyCar,
+    HeadTop
+  },
+  computed: {
+    ...mapGetters([
+      'cartList'
+    ]),
+    shopCart(){
+      return Object.assign({},this.cartList[this.shopId]);
+    },
+    totalNum(){
+      let total = 0;
+      this.presentCartList.forEach(item => {
+          total+=item.num
+      })
+      return total
+    },
   },
   methods: {
     changeActive(index){
@@ -265,6 +344,67 @@ export default {
         })
       })
     },
+    // 初始化以及更新商品数，商品总价
+    initPresentCartList(){
+      // presentCartList: null, // 当前shop的购物车
+      // totalPrice: 0, 
+      let newArr = []; // 分类数量数组新建
+      let cartFoodNum = 0;
+      this.presentCartList = []; // 当前商店购物车
+      this.totalPrice = 0; // 当前商店总值
+      this.menuList.forEach((item, index) => {
+        if(this.shopCart&&this.shopCart[item.foods[0].category_id]){ // 通过分类来做循环
+          let num = 0;
+          Object.keys(this.shopCart[item.foods[0].category_id]).forEach(itemid => {  // 通过Objects.keys取到遍历数组
+            Object.keys(this.shopCart[item.foods[0].category_id][itemid]).forEach(foodid => {
+              let foodItem = this.shopCart[item.foods[0].category_id][itemid][foodid]; // _id与foodid与itemid是相同的
+              num += foodItem.num;
+              this.totalPrice += foodItem.num*foodItem.price;
+              if (foodItem.num > 0) {
+                this.presentCartList[cartFoodNum] = {};
+                this.presentCartList[cartFoodNum].category_id = item.foods[0].category_id;
+                this.presentCartList[cartFoodNum].item_id = itemid;
+                this.presentCartList[cartFoodNum]._id = foodid;
+                this.presentCartList[cartFoodNum].num = foodItem.num;
+                this.presentCartList[cartFoodNum].price = foodItem.price;
+                this.presentCartList[cartFoodNum].name = foodItem.name;
+                cartFoodNum ++;
+              }
+            })
+          })
+          newArr[index] = num;
+        } else{
+          newArr[index] = 0;
+        }
+      })
+      this.totalPrice = this.totalPrice.toFixed(2); // 返回一个两个小数的返回值
+      this.categoryNum = [...newArr]; // 分类数量数组
+    },
+    // 清空购物车
+    clear(){
+      this.$store.dispatch('clearCart', this.shopId)
+    },
+    // 绑定在购物车标志上的事件
+    toggleCartList(){
+      this.presentCartList.length ? this.showCartList = !this.showCartList : false;
+    },
+    // 绑定在遮罩上的事件
+    hideBuyCar(){
+      // this.$refs.mask.toggle();
+      this.showCartList = false;
+    }
+  },
+  watch: {
+    // 监听商店的购物车变化，每次变化后更新
+    shopCart: function(value){
+      this.initPresentCartList();
+    },
+    // 购物车清空的话执行一次隐藏列表
+    totalNum: function(value){
+      if(value<=0) {
+        this.hideBuyCar();
+      }
+    }
   }
 }
 </script>
@@ -287,6 +427,7 @@ export default {
   height: 100%;
 }
 .shopcar-food-container {
+  margin-top: 1.95rem;
   display: flex;
   padding-bottom: 2rem;
   flex: 1;
@@ -441,10 +582,11 @@ export default {
   padding-left: 3.5rem;
   align-items: center;
   color: #fff;
+  z-index: 1005;
   .buy-car {
     position: absolute;
     left: .5rem;
-    bottom: .5rem;
+    bottom: .3rem;
     width: 2.3rem;
     height: 2.3rem;
     box-sizing: border-box;
@@ -500,10 +642,13 @@ export default {
     font-weight: 700;
     line-height: 2rem;
   }
+  .buycar-confirm.buycar-confirm-can {
+     background-color: #ff7416;
+  }
   .buy-car-num {
     position: absolute;
     left: 2rem;
-    top: -1rem;
+    top: -.8rem;
     background: #ff7416;
     line-height: 1;
     color: #fff;
@@ -513,5 +658,65 @@ export default {
     min-width: .3rem;
     text-align: center;
   }
+}
+.toggle-cart-enter-active, .toggle-cart-leave-active {
+    transition: all .3s ease-out;
+}
+.toggle-cart-enter, .toggle-cart-leave-active {
+    transform: translateY(100%);
+}
+.cart-list {
+  position: fixed;
+  width: 100%;
+  margin-bottom: -1px;
+  background-color: #fff;
+  bottom: 2rem;
+  left: 0;
+  z-index: 1002;
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #ebebeb;
+    background: #F4F4F4;
+    font-size: .7rem;
+    line-height: 2rem;
+    height: 2rem;
+    h4 {
+      color: #666;
+      margin-left: 1rem;
+    }
+    span {
+      color: #666;
+      margin-right: 1rem;
+    }
+  }
+  li {
+    font-size: .7rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: .6rem;
+    padding-top: .4rem;
+    margin: 0 .5rem;
+    border-bottom: 1px solid #ddd;
+    p {
+      width: 5rem;
+      text-indent: .5rem;
+    }
+  }
+}
+.mask {
+  position: fixed;
+  width: 100%;
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1001;
+  background: rgba(0,0,0,.6);
+  transition: .3s;
 }
 </style>
