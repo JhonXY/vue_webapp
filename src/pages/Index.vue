@@ -19,12 +19,14 @@ import IconBar from '../components/index/IconBar.vue'
 import ShopList from '../components/index/ShopList.vue'
 import { Swiper } from 'vux'
 
+// 轮播用的图片列表
 const imgList = [
   'http://blog.img.chunibyo.org/xiyang.png',
   'http://pic.58pic.com/58pic/15/67/98/93C58PICjeM_1024.jpg',
   'http://file06.16sucai.com/2016/0315/1df566087c24a94cd9534bc9bc1871ff.jpg'
 ]
 
+// 轮播相关设置
 const List = imgList.map((item, index) => ({
   url: 'javascript:',
   img: item

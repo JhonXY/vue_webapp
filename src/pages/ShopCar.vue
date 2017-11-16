@@ -69,17 +69,33 @@
         :class="(totalNum>0)?'buy-car have':'buy-car'"
         @click="toggleCartList">
       </span>
-      <div class="buycar-all"><span>¥{{totalPrice}}</span></div>
-      <a href="#" :class="(totalNum>0)?'buycar-confirm buycar-confirm-can':'buycar-confirm'" @click="clear"><span>结算</span></a>
+      <div class="buycar-all">
+        <span>¥{{totalPrice}}</span>
+      </div>
+      <!-- 传递订单信息 -->
+      <router-link 
+        href="#" 
+        :class="(totalNum>0)?'buycar-confirm buycar-confirm-can':'buycar-confirm'" 
+        :to="{
+          name: 'shopOrder', 
+          params: {
+            name: head.title,
+            shopId: shopId,
+            order: presentCartList,
+            total: totalPrice
+            }
+        }">
+        <span>结算</span>
+      </router-link>
       <span class="buy-car-num" v-if="totalNum>0">{{totalNum}}</span>
     </section>
-    <!-- 购物车遮罩 -->
+    <!-- 购物车浮出遮罩 -->
     <div
       v-show="showCartList" 
       class="mask" 
       @click="hideBuyCar">
     </div>
-    <!-- 购物车列表 -->
+    <!-- 购物车浮出列表 -->
     <transition name="toggle-cart">
       <section class="cart-list" v-show="showCartList&&presentCartList.length">
         <header>
@@ -128,7 +144,7 @@ export default {
   data(){
     return {
       //根据shopId来获取menuList
-      shopId: 123,
+      shopId: this.$route.query.shopId,
       menuList: [
         {
           name: '农家特色菜',
@@ -136,7 +152,7 @@ export default {
           id: 1,
           foods: [
             {
-              _id: 1,
+              _id: 11,
               category_id: 1,
               name: '黄瓜',
               price: 100,
@@ -147,7 +163,7 @@ export default {
               more: []
             },
             { 
-              _id: 2,
+              _id: 22,
               category_id: 1,
               name: '黄瓜',
               price: 100,
@@ -158,7 +174,7 @@ export default {
               more: []
             },
             {
-              _id: 3,
+              _id: 33,
               category_id: 1,
               name: '黄瓜',
               price: 100,
@@ -169,7 +185,7 @@ export default {
               more: []
             },
             {
-              _id: 4,
+              _id: 44,
               category_id: 1,
               name: '黄瓜',
               price: 100,
@@ -187,7 +203,7 @@ export default {
           id: 2,
           foods: [
             {
-              _id: 5,
+              _id: 55,
               category_id: 2,
               name: '黄瓜',
               price: 100,
@@ -198,7 +214,7 @@ export default {
               more: []
             },
             {
-              _id: 6,
+              _id: 66,
               category_id: 2,
               name: '黄瓜',
               price: 100,
@@ -209,7 +225,7 @@ export default {
               more: []
             },
             {
-              _id: 7,
+              _id: 77,
               category_id: 2,
               name: '黄瓜',
               price: 100,
@@ -227,7 +243,7 @@ export default {
           id: 3,
           foods: [
             {
-              _id: 8,
+              _id: 88,
               category_id: 3,
               name: '黄瓜',
               price: 100,
@@ -240,7 +256,7 @@ export default {
               ]
             },
             {
-              _id: 9,
+              _id: 99,
               category_id: 3,
               name: '黄瓜',
               price: 100,
@@ -258,13 +274,13 @@ export default {
       shopListTop: [], //商品列表的高度集合
       foodScroll: null,  //食品列表scroll
       windowHeight: null, //屏幕的高度
-      presentCartList: [], // 当前shop的购物车(保存为数组),每个商品一个item
+      presentCartList: [], // 当前shop的购物车(保存为数组),每个商品一个item,并保存店铺Id与名称
       totalPrice: 0, // 当前shop的购物车总价
       categoryNum: [], // 当前shop各个分类内添加的商品数(保存为数组),每个分类一个item,记录每个分类商品数
       showCartList: false,
       head:{
         goBack: true,
-        title: '菜单详情'
+        title: this.$route.query.name
       },
     }
   },
@@ -287,9 +303,11 @@ export default {
     ...mapGetters([
       'cartList'
     ]),
+    // 读取该该商店的购物车信息
     shopCart(){
       return Object.assign({},this.cartList[this.shopId]);
     },
+    // 购物车总值
     totalNum(){
       let total = 0;
       this.presentCartList.forEach(item => {
@@ -299,6 +317,7 @@ export default {
     },
   },
   methods: {
+    // 切换左菜单栏
     changeActive(index){
       this.active = index
       //menuIndexChange解决运动时listenScroll依然监听的bug

@@ -53,7 +53,7 @@
         </div>
         <div>
           <router-link 
-          :to="{path: '/shopCar', query: {name: moreDetails.name}}" 
+          :to="{path: '/shopCar', query: {name: moreDetails.name, shopId: shopId}}" 
           tag="span" 
           class="check-live">点菜</router-link>
         </div>
@@ -133,10 +133,10 @@ export default {
       roomList:[
         {
           imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-          name: '标准大床房',
+          name: '标准床房',
           introduce: '18㎡ 1张1.8m双人床 有wifi 2132312312fdsfdsfsdffddfdfdfdfdfdfsdfdsffdsfdfdfdsfdfdsfsdfsdfdfsfsdfsdfsd',
           breakfirst: '单份早餐',
-          price: '125',
+          price: '105',
           cancel: '当日19点前可取消'
         },
         {
@@ -144,15 +144,15 @@ export default {
           name: '标准大床房',
           introduce: '18㎡ 1张1.8m双人床 有wifi',
           breakfirst: '单份早餐',
-          price: '125',
+          price: '115',
           cancel: '当日19点前可取消'
         },
         {
           imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-          name: '标准大床房',
+          name: '大床房',
           introduce: '18㎡ 1张1.8m双人床 有wifi',
           breakfirst: '单份早餐',
-          price: '125',
+          price: '120',
           cancel: '当日19点前可取消'
         }
       ],
@@ -171,6 +171,9 @@ export default {
     details(){
       return this.$route.params;
     },
+    shopId(){
+      return this.$route.params.shopId;
+    }
   },
   components: {
     HeadTop,

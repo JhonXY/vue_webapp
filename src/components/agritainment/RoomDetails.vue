@@ -36,7 +36,15 @@ onmousewheel="return false;">
   </div>
   <div class="room-details-footer">
     <div class="room-details-price">￥{{roomDetails.price}}</div>
-    <router-link :to="{path: '/order', query: {order: this.roomDetails}}" tag="div" v-if="roomDetails.left > 0" class="can-pay">预定</router-link>
+    <router-link 
+      :to="{
+        path: '/order', 
+        query: { 
+          name: this.title
+        }
+      }" 
+      tag="div" 
+      v-if="roomDetails.left> 0" class="can-pay">预定</router-link>
     <div v-else class="none">满房</div>    
   </div>
 </div>
@@ -44,11 +52,15 @@ onmousewheel="return false;">
 
 <script>
 export default {
+  mounted(){
+    console.log('====================================');
+    console.log(this.title);
+    console.log('====================================');
+  },
   data(){
     return {
       // 获取到的细节,另需接口或提前传入
       roomDetails:{
-        name: this.title,
         have:{
           '上网': 'WIFI',
           '卫浴': '独立',

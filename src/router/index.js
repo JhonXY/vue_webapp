@@ -7,6 +7,7 @@ import City from '../pages/City.vue';
 import Agritainment from '../pages/Agritainment.vue';
 import Order from '../pages/order.vue';
 import ShopCar from '../pages/ShopCar.vue';
+import ShopOrder from '../pages/ShopOrder.vue';
 import MoreDetails from '../pages/agritainment/MoreDetails.vue';
 import MapDirection from '../pages/agritainment/MapDirection.vue';
 
@@ -50,11 +51,17 @@ export const routes = [
   },
   {
     path: '/order',
+    name: 'order',
     component: Order
   },
   {
     path: '/shopCar',
     component: ShopCar
+  },
+  {
+    path: '/shopOrder',
+    component: ShopOrder,
+    name: 'shopOrder'
   }
 ]
 

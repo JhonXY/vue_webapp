@@ -6,7 +6,7 @@
     </header>
     <div class="order-card-content">
       <div class="card-inner">
-        <div class="card-name">{{this.$route.query.order.name}}</div>
+        <div class="card-name">{{this.$route.query.name}}</div>
         <div class="card-check">
           <span>
             入住：{{checkIn}} 
@@ -15,18 +15,12 @@
           </span>
         </div>
         <div class="card-more">
-          <div v-if="this.$route.query.order.have">
-            <span 
-            v-for="(item,index) in this.$route.query.order.have"
-            :key="index">
-              {{item}} | 
-            </span>
-          </div>
-          <div v-else>
+          <div v-if="have">
             <span
-            v-for="(item,index) in this.$route.query.order"
+            class="item" 
+            v-for="(item,index) in have"
             :key="index">
-              {{item}} | 
+              {{item}} 
             </span>
           </div>
         </div>
@@ -45,15 +39,16 @@ export default {
       'howLong',
       'shopName'
     ]),
-  }
+  },
+  props: ['have', 'left', 'price', 'live']
 }
 </script>
 
 <style lang="scss" scoped>
 .order-card-head {
-  background: #06c1ae;
+  background: #42abe1;
   line-height: 2rem;
-  border-bottom: 1px solid #06c1ae;
+  border-bottom: 1px solid #42abe1;
   padding: 0 .24rem;
   position: relative;
   h1 {
@@ -93,7 +88,7 @@ export default {
   color: #333;
   line-height: .5rem;
   font-size: .6rem;
-  background: #06c1ae;
+  background: #42abe1;
   padding: 0 .55rem .5rem;
   .card-inner {
     background: #fff;
@@ -107,7 +102,15 @@ export default {
       margin: .7rem 0;
     }
     .card-more {
-
+      line-height: 1.1;
+      .item {
+        &::after {
+        content: '|'
+        }
+      }
+      .item:last-child::after {
+        display: none;
+      }
     }
   }
 }

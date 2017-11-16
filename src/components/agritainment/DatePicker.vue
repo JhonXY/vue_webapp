@@ -1,5 +1,5 @@
 <template>
-    <div class="picker-box">
+    <div class="picker-box" @touchmove.prevent>
         <!-- <div class="mask" @click.stop="hideDatePicker"></div> -->
         <shade-mask ref="mask" @closeMask="hideDatePicker"></shade-mask>
         <div class="picker-box-c">

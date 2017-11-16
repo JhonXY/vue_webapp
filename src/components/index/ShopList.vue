@@ -17,7 +17,16 @@
       </span>
     </header>
     <ul>
-      <router-link :to="{name: 'agritainment', params: item}" tag="li" v-for="(item,index) in itemList" :key="index">
+      <!-- params的传值方式只能采用name进行跳转 -->
+      <router-link 
+        :to="{
+          name: 'agritainment', 
+          params: item, 
+          query: {shopId:item.shopId}
+        }" 
+        tag="li" 
+        v-for="(item,index) in itemList" 
+        :key="index">
         <shop-item v-bind="item"></shop-item>
       </router-link>
     </ul>
@@ -29,6 +38,7 @@ import ShopItem from './ShopItem'
 export default {
   data() {
     return {
+      // 具体商家的列表
       itemList: [
         {
           title: '效果展示',
@@ -36,7 +46,8 @@ export default {
           sendFee: 20,
           shipFee: 5,
           distance: 14.5,
-          rate: 2.1
+          rate: 2.1,
+          shopId: 11111
         },
         {
           title: '效果展示',
@@ -44,7 +55,8 @@ export default {
           sendFee: 20,
           shipFee: 5,
           distance: 14.5,
-          rate: 5.0
+          rate: 5.0,
+          shopId: 22222
         },
         {
           title: '效果展示',
@@ -52,7 +64,8 @@ export default {
           sendFee: 20,
           shipFee: 5,
           distance: 14.5,
-          rate: 1.1
+          rate: 1.1,
+          shopId: 33333
         },
         {
           title: '效果展示',
@@ -60,7 +73,8 @@ export default {
           sendFee: 20,
           shipFee: 5,
           distance: 14.5,
-          rate: 2.8
+          rate: 2.8,
+          shopId: 44444
         },
       ]
     }
