@@ -13,7 +13,9 @@
 </template>
 
 <script>
-import HeadTop from '../components/index/HeadTop.vue'
+import HeadTop from '../components/index/HeadTop.vue';
+import { setStore } from '@/utils/storage.js'
+import { login } from '@/apis/login.js'
 import { XButton } from 'vux'
 import { Group } from 'vux'
 import { XInput } from 'vux'
@@ -37,7 +39,14 @@ export default {
   },
   methods: {
     loginIn() {
-
+      login({ userphone: this.user, password: this.password}).then(res=> {
+        let { userInfo, bean } = res.data
+        setStore('userInfo', userInfo)
+        setStore('token', bean) 
+        this.$store.dispatch('getUserInfo')
+        this.$store.dispatch('toggleLogined')
+        this.$router.push({ path: '/userInfo' })
+      })
     }
   }
 }

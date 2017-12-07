@@ -38,7 +38,7 @@ onmousewheel="return false;">
     <div class="room-details-price">￥{{roomDetails.price}}</div>
     <router-link 
       :to="{
-        path: '/order', 
+        path: '/hostelorder', 
         query: { 
           name: this.title
         }

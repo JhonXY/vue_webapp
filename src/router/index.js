@@ -4,8 +4,10 @@ import Index from '../pages/Index.vue';
 import Login from '../pages/Login.vue';
 import Region from '../pages/Region.vue';
 import City from '../pages/City.vue';
+import UserInfo from '../pages/UserInfo.vue';
+import UserInfoMore from '../pages/UserInfoMore.vue';
 import Agritainment from '../pages/Agritainment.vue';
-import Order from '../pages/order.vue';
+import HostelOrder from '../pages/HostelOrder.vue';
 import ShopCar from '../pages/ShopCar.vue';
 import ShopOrder from '../pages/ShopOrder.vue';
 import MoreDetails from '../pages/agritainment/MoreDetails.vue';
@@ -35,6 +37,15 @@ export const routes = [
     component: City
   },
   {
+    path: '/userinfo',
+    name: 'userinfo',
+    component: UserInfo
+  },
+  {
+    path: '/userInfoMore',
+    component: UserInfoMore
+  },
+  {
     path: '/agritainment',
     name: 'agritainment',
     component: Agritainment,
@@ -50,9 +61,9 @@ export const routes = [
     ]
   },
   {
-    path: '/order',
+    path: '/hostelorder',
     name: 'order',
-    component: Order
+    component: HostelOrder
   },
   {
     path: '/shopCar',

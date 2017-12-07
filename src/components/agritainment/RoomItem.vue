@@ -16,7 +16,7 @@
       <router-link
       tag="button"
       :to="{
-        path: '/order', 
+        path: '/hostelorder', 
         query: { 
           name: this.forOrder.name
         }

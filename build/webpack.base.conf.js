@@ -12,6 +12,7 @@ function resolve (dir) {
 }
 
 let webpackConfig = {
+  // 入口文件
   entry: {
     app: './src/main.js'
   },
@@ -31,8 +32,10 @@ let webpackConfig = {
   },
   module: {
     rules: [
-      {
+      { 
+        // 匹配文件后缀
         test: /\.vue$/,
+        // 相应的loader名
         loader: 'vue-loader',
         options: vueLoaderConfig
       },

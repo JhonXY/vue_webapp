@@ -12,7 +12,7 @@
         <label class="line">
           <span class="line-key">入住人</span>
           <input 
-            :value="userInfo.nickname" 
+            v-model="userName" 
             class="line-value" 
             type="input" 
             placeholder="每间需要填写1人姓名">
@@ -22,7 +22,7 @@
         <label class="line">
           <span class="line-key">联系手机</span>
           <input 
-            :value="userInfo.phone" 
+            v-model="userPhone" 
             class="line-value" 
             type="input" 
             placeholder="请填写您的手机号">
@@ -45,10 +45,34 @@
 </template>
 
 <script>
-import OrderCard from '@/components/order/OrderCard.vue' 
+import OrderCard from '@/components/order/OrderCard.vue';
+import { mapGetters } from 'vuex';
+import { getStore } from '@/utils/storage.js'
+
 export default {
   components: {
     OrderCard
+  },
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ]),
+    // userPhone(){
+    //  
+    // },
+    // userName(){
+    //   
+    // }
+  },
+  mounted(){
+    let init = getStore('userInfo');
+    let user = JSON.parse(init)
+    this.$nextTick(()=> {
+      if(user.user) {
+        this.userName = user.user.nickname;
+        this.userPhone = user.user.phone;
+      }
+    })
   },
   data(){
     return {
@@ -70,14 +94,8 @@ export default {
         left: 1,
         price: '125'
       },
-      userInfo: {
-        nickname: 'lalala',
-        sex: '1', // 男性为1
-        phone: '13333333333'
-      },
-      order: {
-        
-      }
+      userName: '',
+      userPhone: ''
     }
   }
 }

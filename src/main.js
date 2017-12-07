@@ -28,6 +28,7 @@ router.afterEach((to, from, next) => {
 Vue.config.productionTip = false
 
 // vue-amap
+// 使用高德地图
 Vue.use(AMap);
 AMap.initAMapApiLoader({
   key: 'b24cb87ddac059194fed7475d6f22ad8',

@@ -28,8 +28,8 @@
           <i></i>
           <p class="info-location">{{this.location}}</p>
           <p class="info-user">
-            <span>{{userInfo.nickname}} {{sex}}</span>
-            <span>联系电话：{{userInfo.phone}}</span>
+            <span>{{userInfo.user?userInfo.user.nickname:'暂无'}} {{sex}}</span>
+            <span>联系电话：{{(userInfo.user?userInfo.user.phone:'暂无') }}</span>
           </p>
         </div>
       </div>
@@ -51,20 +51,25 @@ import { mapGetters } from 'vuex';
 export default {
   data(){
     return {
-      userInfo: {
-        nickname: 'lalala',
-        sex: '1', // 男性为1
-        phone: '13333333333'
-      }
+      // userInfo: {
+      //   nickname: 'lalala',
+      //   sex: '1', // 男性为1
+      //   phone: '13333333333'
+      // }
     }
   },
   computed: {
     // 需要获取用户的个人Info,应预先存入vuex
     ...mapGetters([
-      'location'
+      'location',
+      'userInfo'
     ]),
     sex(){
-      return this.userInfo.sex ? '先生' : '女士';
+      if (this.userInfo.nickname){
+        return ''
+      } else {
+        return this.userInfo.user.sex ? '先生' : '女士';
+      }
     }
   },
   methods: {

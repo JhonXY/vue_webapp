@@ -4,6 +4,7 @@ import app from './modules/app'
 import region from './modules/region'
 import order from './modules/order'
 import shopCar from './modules/shopCar'
+import user from './modules/user'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
     app,
     region,
     order,
-    shopCar
+    shopCar,
+    user
   },
   getters
 })
