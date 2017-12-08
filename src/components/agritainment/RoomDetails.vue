@@ -52,11 +52,6 @@ onmousewheel="return false;">
 
 <script>
 export default {
-  mounted(){
-    console.log('====================================');
-    console.log(this.title);
-    console.log('====================================');
-  },
   data(){
     return {
       // 获取到的细节,另需接口或提前传入

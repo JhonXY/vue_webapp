@@ -19,6 +19,18 @@ if ('addEventListener' in document) {
 // 加载用loading效果
 router.beforeEach((to, from, next) => {
   store.dispatch('changeLoad', { isLoading: true })
+  if (to.matched.some(record => record.meta.auth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.getters.isLogined) {
+      next({
+        path: '/needLogin',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  }
   next(); // 必须的
 })
 router.afterEach((to, from, next) => {

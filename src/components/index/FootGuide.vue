@@ -145,19 +145,19 @@
       <span>搜索</span>
     </router-link>
     
-    <section class="guide_item">
+    <router-link tag="section" :to="'/orderManage'" class="guide_item">
       <svg class="icon_style">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('order') !== -1? '#orderActive' : '#order'"></use>
       </svg>
       <span>订单</span>
-    </section>
+    </router-link>
     
-    <section class="guide_item">
+    <router-link tag="section" :to="'/userInfo'" class="guide_item">
       <svg class="icon_style">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('profile') !== -1? '#profileActive' : '#profile'"></use>
       </svg>
       <span>我的</span>
-    </section>
+    </router-link>
   </div>
 </template>
 

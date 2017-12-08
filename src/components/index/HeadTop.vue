@@ -31,6 +31,12 @@
       </router-link>
       <!-- 地区 -->
       <span class="title_text ellipsis" v-else-if="this.$route.path == '/region'">{{location}}</span>
+      <span 
+      class="title_text ellipsis" 
+      v-else-if="routerOrder"
+      @click="this.orderChange">
+        {{orderMenu}}
+      </span>
       <!-- 标题 -->
       <span class="title_text ellipsis" v-else>{{title}}</span>
     </a>
@@ -69,7 +75,10 @@ export default {
   computed: {
     ...mapGetters([
       'location'
-    ])
+    ]),
+    routerOrder(){
+      return (this.$route.path).match('/orderManage') != null
+    }
   },
   props: {
     title: {
@@ -87,11 +96,18 @@ export default {
     region: {
       type: String,
       default: '北京',
+    },
+    orderMenu: {
+      type: String,
+      default: '全部分类'
     }
   },
   methods: {
     back() {
       this.$router.go(-1)
+    },
+    orderChange(){
+      this.$emit('toggleList')
     }
   }
 }

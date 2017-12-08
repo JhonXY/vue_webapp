@@ -57,12 +57,6 @@ export default {
     ...mapGetters([
       'userInfo'
     ]),
-    // userPhone(){
-    //  
-    // },
-    // userName(){
-    //   
-    // }
   },
   mounted(){
     let init = getStore('userInfo');
