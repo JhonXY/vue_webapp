@@ -7,3 +7,11 @@ export function register(data) {
     data
   })
 }
+
+export function userInfo(params) {
+  return fetch({
+    url: '/users/userInfo',
+    method: 'get',
+    params
+  })
+}
