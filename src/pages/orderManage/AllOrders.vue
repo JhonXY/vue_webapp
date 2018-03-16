@@ -102,7 +102,7 @@ export default {
     .bottom-line {
       transition: .3s;
       left: 0;
-      z-index: 100;
+      z-index: 10;
       width: 2rem;
       position: absolute;
       bottom: 0;

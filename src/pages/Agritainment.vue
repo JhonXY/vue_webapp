@@ -70,9 +70,12 @@
         </div>
       </div>
       <ul class="room-list">
+        <!-- 主要的住房信息与订单处理 -->
           <room-item
           @show="getRoomDetails"
-          v-bind="item" 
+          @order="initOrder"
+          v-bind="item"
+          :index="index"
           v-for="(item, index) in roomList" 
           :key="index">
           </room-item>
@@ -132,6 +135,7 @@ export default {
       // 需要接口
       roomList:[
         {
+          id: '001',
           imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
           name: '标准床房',
           introduce: '18㎡ 1张1.8m双人床 有wifi 2132312312fdsfdsfsdffddfdfdfdfdfdfsdfdsffdsfdfdfdsfdfdsfsdfsdfdfsfsdfsdfsd',
@@ -140,6 +144,7 @@ export default {
           cancel: '当日19点前可取消'
         },
         {
+          id: '002',
           imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
           name: '标准大床房',
           introduce: '18㎡ 1张1.8m双人床 有wifi',
@@ -148,6 +153,7 @@ export default {
           cancel: '当日19点前可取消'
         },
         {
+          id: '003',
           imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
           name: '大床房',
           introduce: '18㎡ 1张1.8m双人床 有wifi',
@@ -168,12 +174,19 @@ export default {
     this.$store.dispatch('changeShopName', this.moreDetails.name)
   },
   computed: {
+    // 路由中传递的店铺信息
     details(){
       return this.$route.params;
     },
+    // 路由中传递的店铺id
     shopId(){
       return this.$route.params.shopId;
-    }
+    },
+    ...mapGetters([
+      'isLogined',
+      'userInfo',
+      'forOrder'
+    ]),
   },
   components: {
     HeadTop,
@@ -218,6 +231,10 @@ export default {
         this.$refs.details.hide = false;
       }, 100)
     },
+    initOrder(index){
+      this.roomList[index]
+    },
+    // 隐藏床型具体信息弹层
     hideRoomDetails(){
       this.$refs.details.hide = true;
       setTimeout(()=>{

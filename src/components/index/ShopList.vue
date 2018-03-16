@@ -18,14 +18,15 @@
     </header>
     <ul>
       <!-- params的传值方式只能采用name进行跳转 -->
+      <!-- 通过id来做url的标识 -->
       <router-link 
         :to="{
           name: 'agritainment', 
           params: item, 
-          query: {shopId:item.shopId}
+          query: { shop: item.id }
         }" 
         tag="li" 
-        v-for="(item,index) in itemList" 
+        v-for="(item,index) in finalList" 
         :key="index">
         <shop-item v-bind="item"></shop-item>
       </router-link>
@@ -34,49 +35,32 @@
 </template>
 
 <script>
+import { getShopsList } from '@/apis/shop'
+import { randomNum } from '@/utils/utils'
 import ShopItem from './ShopItem'
 export default {
   data() {
     return {
-      // 具体商家的列表
-      itemList: [
-        {
-          title: '效果展示',
-          monthlySales: 123,
-          sendFee: 20,
-          shipFee: 5,
-          distance: 14.5,
-          rate: 2.1,
-          shopId: 11111
-        },
-        {
-          title: '效果展示',
-          monthlySales: 123,
-          sendFee: 20,
-          shipFee: 5,
-          distance: 14.5,
-          rate: 5.0,
-          shopId: 22222
-        },
-        {
-          title: '效果展示',
-          monthlySales: 123,
-          sendFee: 20,
-          shipFee: 5,
-          distance: 14.5,
-          rate: 1.1,
-          shopId: 33333
-        },
-        {
-          title: '效果展示',
-          monthlySales: 123,
-          sendFee: 20,
-          shipFee: 5,
-          distance: 14.5,
-          rate: 2.8,
-          shopId: 44444
-        },
-      ]
+      // 等待初始化
+      itemList: []
+    }
+  },
+  mounted(){
+    // 获取首页店家列表
+    getShopsList().then(res => {
+      this.itemList = res.data.data.data
+    })
+  },
+  computed: {
+    finalList(){
+      let list = this.itemList
+      // 月售量，人均消费，距离
+      list.forEach((item) => {
+        item.perFee = randomNum(35, 15)
+        item.distance = randomNum(10, 10)
+        item.monthlySales = randomNum(150, 50)
+      })
+      return list;
     }
   },
   components: {
@@ -202,5 +186,8 @@ export default {
       }
     }
   }
+}
+.one_left {
+  padding-left: .3rem
 }
 </style>

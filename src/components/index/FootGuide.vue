@@ -145,7 +145,7 @@
       <span>搜索</span>
     </router-link>
     
-    <router-link tag="section" :to="'/orderManage'" class="guide_item">
+    <router-link tag="section" :to="'/orderManage/allOrders'" class="guide_item">
       <svg class="icon_style">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('order') !== -1? '#orderActive' : '#order'"></use>
       </svg>

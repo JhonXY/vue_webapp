@@ -2,11 +2,20 @@
   <div class="rating">
     <span 
     class="rating-star rating-star-solid" 
-    v-for="index in a" :key="index"></span><span 
+    v-for="index in a" 
+    :key="index">
+    </span>
+    <!-- 用于标识的key同一模块内index最好保证没有重合 -->
+    <span 
     class="rating-star rating-star-half" 
-    v-for="index in b" :key="index"></span><span 
+    v-for="index in b" 
+    :key="index+=100">
+    </span>
+    <span 
     class="rating-star rating-star-empty" 
-    v-for="index in c" :key="index"></span>
+    v-for="index in c" 
+    :key="index+=200">
+    </span>
     <span ref="rate" class="subject-rate">{{rate}}</span>
   </div>
 </template>
@@ -27,7 +36,6 @@ export default {
       var subjects = this.rate
       var re = (subjects%1);
       this.a = Math.floor(subjects)
-      // 一定要记住switch(true)
       switch(true) {
         case re >= 0.5: 
           this.a+=1;

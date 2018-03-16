@@ -1,3 +1,5 @@
+import { setStore, getStore } from '@/utils/storage.js'
+
 const order = {
   state: {
     checkIn: '',
@@ -18,6 +20,15 @@ const order = {
     UPDATE_SHOPNAME: (state, shopName) => {
       state.shopName = shopName
     },
+    // 持久化一个住店订单
+    SAVE_ORDER: (state, options) => {
+      console.log(state);
+      console.log(options);
+      let obj = {
+
+      }
+      setStore('order')
+    }
   },
   actions: {
     changeCheckIn: ({ commit }, checkIn) => {
@@ -31,6 +42,9 @@ const order = {
     },
     changeShopName: ({ commit }, shopName) => {
       commit('UPDATE_SHOPNAME', shopName);
+    },
+    saveOrder: ({ commit }, options) => {
+      commit('SAVE_ORDER', options);
     },
   }
 }

@@ -6,32 +6,32 @@
   <div class="shop_li_right">
      <header>
       <h4>
-        {{title}}
+        {{name}}
       </h4>
-      <ul>
+      <!-- <ul>
         <li>略</li>
         <li>略</li>
         <li>略</li>
-      </ul>
+      </ul> -->
       </header>
       <h5 class="one">
         <section class="one_left">
           <section></section>
            <p>月售{{monthlySales}}单</p>
         </section>
-        <section class="one_right">
+        <!-- <section class="one_right">
           <p class="one_right_l">蜂鸟转送</p>
           <p class="one_right_r">准时达到</p>
-        </section>   
+        </section>    -->
       </h5>
       <h5 class="two">
          <p class="fei">
-              ¥{{sendFee}}起送/配送费约¥{{shipFee}}
+            人均消费 ¥{{perFee}}
          </p>
         <p class="distance">
           <span>{{distance}}公里</span>
-          <span>/</span>
-          <span style="color: #3190e8">分钟</span>
+          <!-- <span>/</span> -->
+          <!-- <span style="color: #3190e8">分钟</span> -->
         </p>
       </h5>     
   </div>
@@ -40,10 +40,9 @@
 
 <script>
 export default {
-  props: ['title',
+  props: ['name',
           'monthlySales',
-          'sendFee',
-          'shipFee',
+          'perFee',
           'distance'],
 }
 </script>

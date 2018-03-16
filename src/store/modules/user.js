@@ -11,7 +11,7 @@ const user = {
   mutations: {
     GET_USERINFO: (state, init) => {
       if (init) {
-        state.userInfo = JSON.parse(init)
+        state.userInfo = init
       }
     },
     UPDATE_Logined: (state) => {

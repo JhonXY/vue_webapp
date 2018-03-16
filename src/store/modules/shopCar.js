@@ -47,7 +47,7 @@ const shopCar = {
     INIT_CART: (state) => {
       let init = getStore('shopCart')
       if(init) {
-        state.cartList = JSON.parse(init)
+        state.cartList = init
       }
     }
   },

@@ -13,7 +13,7 @@
     </div>
     <div class="room-item-r">
       <p>均￥<span class="room-price">{{price}}</span></p>
-      <router-link
+      <!-- <router-link
       tag="button"
       :to="{
         path: '/hostelorder', 
@@ -23,24 +23,28 @@
       }"
       class="room-reserve"
       >预定
-      </router-link>
+      </router-link> -->
+      <button 
+        class="room-reserve"
+        @click.stop="triggerOrder">
+        预定
+      </button>
     </div>
   </li>
 </template>
 
 <script>
 export default {
-  data(){
-    return {
-      forOrder: {
-        name: this.$props.name,
-      }
-    }
-  },
-  props: ['imgsrc', 'name', 'introduce', 'breakfirst', 'price', 'cancel'],
+  props: ['imgsrc', 'name', 'introduce', 'breakfirst', 'price', 'cancel', 'index'],
   methods: {
+    // 用于弹窗的头部标题显示
     showDetails(){
       this.$emit('show', this.name)
+    },
+    // 用于触发订单处理
+    // 传递数组index确认具体床型信息位置
+    triggerOrder(){
+      this.$emit('order', this.index)
     }
   }
 }
