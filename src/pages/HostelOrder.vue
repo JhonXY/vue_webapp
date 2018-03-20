@@ -34,12 +34,12 @@
       class="order-footer-price">
          总价：￥{{this.roomDetails.price}}
       </div>
-      <router-link 
+      <!-- <router-link 
       :to="'/order'" 
       tag="div" 
       class="order-footer-confirm">
         提交订单
-      </router-link>
+      </router-link> -->
     </div>
   </div>
 </template>
@@ -55,12 +55,17 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'userInfo'
+      'userInfo',
+      'forOrder',
+      'isLogined'
     ]),
   },
   mounted(){
-    let init = getStore('userInfo');
-    let user = JSON.parse(init)
+    let user = getStore('userInfo');
+    console.log(this.userInfo);
+    console.log(this.forOrder);
+    console.log(this.isLogined);
+    
     this.$nextTick(()=> {
       if(user.user) {
         this.userName = user.user.nickname;
