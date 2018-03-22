@@ -9,7 +9,7 @@ export function getHotels(params) {
     url: '/shops/getHotels',
     method: 'get',
     headers: {
-      'Authorization': 'Bearer' + token.token
+      'Authorization': 'Bearer ' + token.token
     },
     params
     // params会将参数存到url后
@@ -23,7 +23,7 @@ export function getShopsList(params) {
     url: '/shops/getShopsList',
     method: 'get',
     headers: {
-      'Authorization': 'Bearer' + token.token
+      'Authorization': 'Bearer ' + token.token
     },
     params
     // params会将参数存到url后

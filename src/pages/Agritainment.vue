@@ -112,6 +112,7 @@ import RoomItem from '@/components/agritainment/RoomItem.vue';
 import RoomDetails from '@/components/agritainment/RoomDetails.vue';
 import ShadeMask from '@/components/layout/shadeMask.vue';
 import { mapGetters } from 'vuex';
+import { getHotels } from '@/apis/shop';
 
 export default {
   name: 'agritainment',
@@ -171,6 +172,11 @@ export default {
     }
   },
   mounted(){
+    getHotels({
+      shopId: this.shopId
+    }).then({
+      // 替换roomlist
+    })
     this.$store.dispatch('changeShopName', this.moreDetails.name)
   },
   computed: {
@@ -180,7 +186,7 @@ export default {
     },
     // 路由中传递的店铺id
     shopId(){
-      return this.$route.params.shopId;
+      return this.$route.params.id;
     },
     ...mapGetters([
       'isLogined',
@@ -232,7 +238,15 @@ export default {
       }, 100)
     },
     initOrder(index){
-      this.roomList[index]
+      this.$router.push({
+        path: '/hostelorder', 
+        query: { 
+          name: this.roomList[index].name
+        },
+        params: {
+          info: this.roomList[index]
+        }
+      })
     },
     // 隐藏床型具体信息弹层
     hideRoomDetails(){
