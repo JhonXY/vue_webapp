@@ -62,9 +62,6 @@ export default {
   },
   mounted(){
     let user = getStore('userInfo');
-    console.log(this.userInfo);
-    console.log(this.forOrder);
-    console.log(this.isLogined);
     
     this.$nextTick(()=> {
       if(user.user) {

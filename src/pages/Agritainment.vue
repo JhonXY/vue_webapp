@@ -168,20 +168,43 @@ export default {
       endTime: '',  // 离店时间
       howLong: '',  // 住多少天
       showRoomDetails: false,  // 控制房间详情的显示
-      roomShowName: '' // 哪个房间需要显示详情
+      roomShowName: '', // 哪个房间需要显示详情
+      canRecordInfo: false
     }
   },
+  beforeRouteEnter (to, from, next) {
+  // 在导航完成前获取数据
+    // console.log(from);
+    // 在前一个路由名为index时做店铺信息的共享操作
+    if(from.name === 'index') {
+      // 在该钩子中this还未创建，所以需要往next的回调中传参，该参会成为即将实例化的this
+      next(vm => {
+        console.log(vm);
+        
+        vm.setCanRecord()
+      });
+    }
+    next();
+  },
   mounted(){
+    // 获取旅店列表
     getHotels({
       shopId: this.shopId
     }).then({
       // 替换roomlist
     })
+
+    console.log(this.$router);
+    console.log(this.$route);
+    console.log(this.canRecordInfo);
+    
     this.$store.dispatch('changeShopName', this.moreDetails.name)
+    // this.$store.dispatch('changeShopName', this.moreDetails.name)
   },
   computed: {
     // 路由中传递的店铺信息
     details(){
+      
       return this.$route.params;
     },
     // 路由中传递的店铺id
@@ -203,6 +226,9 @@ export default {
     ShadeMask
   },
   methods: {
+    setCanRecord(){
+      this.canRecordInfo = true
+    },
     showDatePicker(){
       this.showPicker = true;
       this.$refs.mask.on = true;
