@@ -13,7 +13,7 @@ var service = axios.create({
 service.interceptors.request.use(config => {
   // 对即将发送的request请求做相关修改
   // config.headers['X-Token'] = 'admin' // 可在此添加token
-  console.log(config)  // for debug
+  // console.log(config)  // for debug
   return config  // 一定要返回
 }, error => {
   console.log('reqErr '+ error) // for debug
