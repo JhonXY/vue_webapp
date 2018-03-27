@@ -22,12 +22,7 @@ const order = {
     },
     // 持久化一个住店订单
     SAVE_ORDER: (state, options) => {
-      console.log(state);
-      console.log(options);
-      let obj = {
-
-      }
-      setStore('order')
+      setStore('order', options)
     }
   },
   actions: {

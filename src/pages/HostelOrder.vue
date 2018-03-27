@@ -34,6 +34,11 @@
       class="order-footer-price">
          总价：￥{{this.roomDetails.price}}
       </div>
+      <div 
+      class="order-footer-confirm"
+      @click="orderSub">
+        提交订单
+      </div>
       <!-- <router-link 
       :to="'/order'" 
       tag="div" 
@@ -53,22 +58,27 @@ export default {
   components: {
     OrderCard
   },
+  data() {
+    return {
+      userName: '',
+      userPhone: ''
+    }
+  },
   computed: {
     ...mapGetters([
       'userInfo',
       'forOrder',
-      'isLogined'
+      'isLogined',
+      'shopId'
     ]),
   },
   mounted(){
     let user = getStore('userInfo');
     
-    this.$nextTick(()=> {
-      if(user.user) {
-        this.userName = user.user.nickname;
-        this.userPhone = user.user.phone;
-      }
-    })
+    if(user.user) {
+      this.userName = user.user.nickname;
+      this.userPhone = user.user.phone;
+    }
   },
   data(){
     return {
@@ -92,6 +102,26 @@ export default {
       },
       userName: '',
       userPhone: ''
+    }
+  },
+  methods: {
+    orderSub(){
+      let obj = {
+        roomNum: 1,
+        checkMan: this.userName,
+        phone: this.userPhone,
+        shopId: this.shopId,
+        hotelId: this.$route.query.hotelId,
+        forOrder: this.forOrder
+      }
+      // 先将订单持久化    
+      this.$store.dispatch('saveOrder', obj)
+      // 未登录先登录
+      if(this.isLogined) {
+        this.$router.push({path: '/orderManage/allOrders'})
+      } else {
+        this.$router.push({path: '/login'})
+      }
     }
   }
 }
