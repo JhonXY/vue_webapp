@@ -10,6 +10,9 @@ const shop = {
     SET_SHOPID: (state, init) => {
       if (init) {
         state.shopId = init
+        setStore('shopId', {
+          shopId: init
+        })
       }
     },
     // 设置当前缓存的shop信息
@@ -21,7 +24,7 @@ const shop = {
   },
   actions: {
     setShopId: ({ commit }, id) => {
-      let init = getStore('userInfo')
+      // let init = getStore('userInfo')
       commit('SET_SHOPID', id);
     },
     setShopInfo: ({ commit }, info) => {
@@ -30,4 +33,4 @@ const shop = {
   }
 }
 
-export default user;
+export default shop;

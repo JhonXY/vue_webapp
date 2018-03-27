@@ -14,11 +14,12 @@
 
 <script>
 import HeadTop from '../components/index/HeadTop.vue';
-import { setStore } from '@/utils/storage.js'
-import { login } from '@/apis/login.js'
-import { XButton } from 'vux'
-import { Group } from 'vux'
-import { XInput } from 'vux'
+import { setStore } from '@/utils/storage.js';
+import { login } from '@/apis/login.js';
+import { XButton } from 'vux';
+import { Group } from 'vux';
+import { XInput } from 'vux';
+
 export default {
   components: {
     HeadTop,

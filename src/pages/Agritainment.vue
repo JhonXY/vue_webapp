@@ -113,6 +113,7 @@ import RoomDetails from '@/components/agritainment/RoomDetails.vue';
 import ShadeMask from '@/components/layout/shadeMask.vue';
 import { mapGetters } from 'vuex';
 import { getHotels } from '@/apis/shop';
+import { setStore, getStore } from '@/utils/storage.js'
 
 export default {
   name: 'agritainment',
@@ -169,47 +170,54 @@ export default {
       howLong: '',  // 住多少天
       showRoomDetails: false,  // 控制房间详情的显示
       roomShowName: '', // 哪个房间需要显示详情
-      canRecordInfo: false
+      canRecordInfo: false // 是否可以获取记录
     }
   },
   beforeRouteEnter (to, from, next) {
   // 在导航完成前获取数据
-    // console.log(from);
     // 在前一个路由名为index时做店铺信息的共享操作
     if(from.name === 'index') {
       // 在该钩子中this还未创建，所以需要往next的回调中传参，该参会成为即将实例化的this
-      next(vm => {
-        console.log(vm);
-        
+      // 此处的回调调用在dom的渲染之后
+      // 所以对dom的操作（computed之类的）也会延后
+      next(vm => {      
         vm.setCanRecord()
+        // 如果能够获取到店铺信息，在vuex做存储
+        vm.$store.dispatch('changeShopName', vm.$route.params.name)
+        vm.$store.dispatch('setShopId', vm.shopId)
+        vm.$store.dispatch('setShopInfo', vm.details)
       });
     }
     next();
   },
   mounted(){
+    // 首页的跳转直接从路由中读
+    // 其他页的跳转从storage读
+    let storage = getStore('shopId'), shopId
+        
+    storage 
+      ? shopId = storage.shopId 
+      : shopId = this.$route.query.shopId
+    
     // 获取旅店列表
     getHotels({
-      shopId: this.shopId
+      shopId
     }).then({
       // 替换roomlist
-    })
-
-    console.log(this.$router);
-    console.log(this.$route);
-    console.log(this.canRecordInfo);
-    
-    this.$store.dispatch('changeShopName', this.moreDetails.name)
-    // this.$store.dispatch('changeShopName', this.moreDetails.name)
+    })  
   },
   computed: {
     // 路由中传递的店铺信息
     details(){
-      
-      return this.$route.params;
+      if(this.canRecordInfo) {
+        return this.$route.params;
+      }
     },
     // 路由中传递的店铺id
     shopId(){
-      return this.$route.params.id;
+      if(this.canRecordInfo) {
+        return this.$route.query.shop;
+      }
     },
     ...mapGetters([
       'isLogined',
@@ -267,7 +275,7 @@ export default {
       this.$router.push({
         path: '/hostelorder', 
         query: { 
-          name: this.roomList[index].name
+          hotelId: this.roomList[index].id
         },
         params: {
           info: this.roomList[index]
