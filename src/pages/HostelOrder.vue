@@ -53,6 +53,8 @@
 import OrderCard from '@/components/order/OrderCard.vue';
 import { mapGetters } from 'vuex';
 import { getStore } from '@/utils/storage.js'
+import { generateUUID } from '@/utils/uuid.js'
+import { hotelOrderSub } from '@/apis/users.js'
 
 export default {
   components: {
@@ -106,21 +108,37 @@ export default {
   },
   methods: {
     orderSub(){
+      // 防止stringfy循环引用报错
+      let tmp = this.forOrder
+      delete tmp.currentOrder
+
       let obj = {
         roomNum: 1,
         checkMan: this.userName,
         phone: this.userPhone,
         shopId: this.shopId,
         hotelId: this.$route.query.hotelId,
-        forOrder: this.forOrder
-      }
-      // 先将订单持久化    
+        forOrder: tmp,
+        tempUUID: generateUUID()
+      }  
+      
+      // 将订单持久化    
       this.$store.dispatch('saveOrder', obj)
       // 未登录先登录
+      // 已登录直接提交订单
       if(this.isLogined) {
-        this.$router.push({path: '/orderManage/allOrders'})
+        // hotelOrderSub(obj)
+        //   .then((res)=>{
+        //     this.$router.push({path: '/orderManage/allOrders'})
+        //   })
       } else {
-        this.$router.push({path: '/login'})
+        this.$router.push({
+          path: '/login',
+          // 有需要转送的order
+          params: {
+            hasOrder: true
+          }
+        })
       }
     }
   }

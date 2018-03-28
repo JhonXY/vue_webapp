@@ -1,11 +1,12 @@
-import { setStore, getStore } from '@/utils/storage.js'
+import { setStore, getStore, removeStore } from '@/utils/storage.js'
 
 const order = {
   state: {
     checkIn: '',
     checkOut: '',
     howLong: '',
-    shopName: ''
+    shopName: '',
+    currentOrder: ''
   },
   mutations: {
     UPDATE_CHECKIN: (state, checkIn) => {
@@ -21,8 +22,14 @@ const order = {
       state.shopName = shopName
     },
     // 持久化一个住店订单
+    // 只保持一个持久化暂存
     SAVE_ORDER: (state, options) => {
+      console.log(options);
+      if(getStore('order')){
+        removeStore('order')
+      }
       setStore('order', options)
+      state.currentOrder = options
     }
   },
   actions: {

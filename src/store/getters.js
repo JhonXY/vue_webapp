@@ -17,6 +17,7 @@ const getters = {
   isLogined: state => state.user.isLogined,
   // 店铺相关
   shopId: state => state.shop.shopId,
+  shopInfo: state => state.shop.shopInfo,
 }
 
 export default getters

@@ -14,8 +14,9 @@
 
 <script>
 import HeadTop from '../components/index/HeadTop.vue';
-import { setStore } from '@/utils/storage.js';
+import { setStore, getStore } from '@/utils/storage.js';
 import { login } from '@/apis/login.js';
+import { hotelOrderSub } from '@/apis/users.js'
 import { XButton } from 'vux';
 import { Group } from 'vux';
 import { XInput } from 'vux';
@@ -40,14 +41,29 @@ export default {
   },
   methods: {
     loginIn() {
-      login({ userphone: this.user, password: this.password}).then(res=> {
-        let { userInfo, bean } = res.data
-        setStore('userInfo', userInfo)
-        setStore('token', bean) 
-        this.$store.dispatch('getUserInfo')
-        this.$store.dispatch('toggleLogined')
-        this.$router.push({ path: '/userInfo' })
-      })
+      login({ userphone: this.user, password: this.password})
+        .then(res => {
+          let { userInfo, bean } = res.data
+          setStore('userInfo', userInfo)
+          setStore('token', bean) 
+          this.$store.dispatch('getUserInfo')
+          this.$store.dispatch('toggleLogined')  
+          
+          // 根据是否传参来判断是否需要传单
+          if(this.$router.params){
+            let obj = getStore('order')
+            console.log(obj);
+            
+            // hotelOrderSub(obj)
+            //   .then(res => {
+            //     if(res.success){
+            //       this.$router.push({path: '/orderManage/allOrders'})
+            //     }
+            //   })
+          } else {
+            this.$router.push({ path: '/userInfo' })
+          }
+        })
     }
   }
 }
