@@ -15,3 +15,12 @@ export function userInfo(params) {
     params
   })
 }
+
+// 提交hotel订单
+export function hotelOrderSub(data) {
+  return fetch({
+    url: '/users/hotelOrderSub',
+    method: 'post',
+    data
+  })
+}
