@@ -6,7 +6,8 @@ const order = {
     checkOut: '',
     howLong: '',
     shopName: '',
-    currentOrder: ''
+    currentOrder: '',
+    amount: 0
   },
   mutations: {
     UPDATE_CHECKIN: (state, checkIn) => {
@@ -30,6 +31,7 @@ const order = {
       }
       setStore('order', options)
       state.currentOrder = options
+      state.amount = options.amount
     }
   },
   actions: {

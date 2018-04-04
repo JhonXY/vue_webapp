@@ -202,8 +202,11 @@ export default {
     // 获取旅店列表
     getHotels({
       shopId
-    }).then({
-      // 替换roomlist
+    }).then(res => {
+      this.roomList = res.data.data.data   
+      this.roomList.forEach(item => {
+        item.imgsrc = 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1'
+      })
     })  
   },
   computed: {
@@ -271,15 +274,17 @@ export default {
         this.$refs.details.hide = false;
       }, 100)
     },
+    // 订单初始化
     initOrder(index){
       this.$router.push({
         path: '/hostelorder', 
         query: { 
-          hotelId: this.roomList[index].id
+          hotelId: this.roomList[index].id,
+          ...this.roomList[index]
         },
-        params: {
-          info: this.roomList[index]
-        }
+        // params: {
+          
+        // }
       })
     },
     // 隐藏床型具体信息弹层

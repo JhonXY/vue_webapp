@@ -1,4 +1,5 @@
 import fetch from '@/utils/fetch.js'
+import { getStore } from '@/utils/storage';
 
 export function register(data) {
   return fetch({
@@ -18,9 +19,21 @@ export function userInfo(params) {
 
 // 提交hotel订单
 export function hotelOrderSub(data) {
+  const token = getStore('token')
   return fetch({
-    url: '/users/hotelOrderSub',
+    url: '/orders/subHotelOrder',
     method: 'post',
+    headers: {
+      'Authorization': 'Bearer ' + token.token
+    },
     data
   })
 }
+// 提交hotel订单
+// export function hotelOrderSub(data) {
+//   return fetch({
+//     url: '/orders/hotelOrderSub',
+//     method: 'post',
+//     data
+//   })
+// }

@@ -39,12 +39,6 @@
       @click="orderSub">
         提交订单
       </div>
-      <!-- <router-link 
-      :to="'/order'" 
-      tag="div" 
-      class="order-footer-confirm">
-        提交订单
-      </router-link> -->
     </div>
   </div>
 </template>
@@ -63,15 +57,19 @@ export default {
   data() {
     return {
       userName: '',
-      userPhone: ''
+      userPhone: '',
+      userId: ''
     }
   },
   computed: {
     ...mapGetters([
       'userInfo',
-      'forOrder',
       'isLogined',
-      'shopId'
+      'shopId',
+      'checkIn',
+      'checkOut',
+      'howLong',
+      'shopName',
     ]),
   },
   mounted(){
@@ -80,28 +78,15 @@ export default {
     if(user.user) {
       this.userName = user.user.nickname;
       this.userPhone = user.user.phone;
+      this.userId = user.user.id;
     }
+
+    this.roomDetails = this.$route.query
   },
   data(){
     return {
       // 根据query中的name获取详细信息
-      roomDetails:{
-        have:{
-          '上网': 'WIFI',
-          '卫浴': '独立',
-          '窗户': '无',
-          '可住': '2人',
-          '床型': '大床1.5×2.0米1张',
-          '早餐': '无早餐'
-        },
-        live: [
-          '直接消费，无需美团券，请携带入住人身份证，凭姓名和预订手机号直接办理入住',
-          '请在14:00-18:00之后入住并于次日12:00之前退房；如需提前入住或延时退房，请咨询商家',
-          '入住需要押金，金额以前台为准'
-        ],
-        left: 1,
-        price: '125'
-      },
+      roomDetails:{},
       userName: '',
       userPhone: ''
     }
@@ -109,29 +94,32 @@ export default {
   methods: {
     orderSub(){
       // 防止stringfy循环引用报错
-      let tmp = this.forOrder
-      delete tmp.currentOrder
-
+      console.log(this.shopId);
+      
+      let { checkIn,checkOut,howLong,shopName } = this
+      let amount = howLong*this.roomDetails.price
       let obj = {
         roomNum: 1,
         checkMan: this.userName,
         phone: this.userPhone,
-        shopId: this.shopId,
+        // 这里有所改变
         hotelId: this.$route.query.hotelId,
-        forOrder: tmp,
-        tempUUID: generateUUID()
+        status: 0,
+        shopId: this.shopId, checkIn, checkOut, howLong, shopName, amount
       }  
       
-      // 将订单持久化    
-      this.$store.dispatch('saveOrder', obj)
       // 未登录先登录
       // 已登录直接提交订单
       if(this.isLogined) {
-        // hotelOrderSub(obj)
-        //   .then((res)=>{
-        //     this.$router.push({path: '/orderManage/allOrders'})
-        //   })
+        obj.userId = this.userInfo.id
+        console.log('logined', obj);
+        this.$store.dispatch('saveOrder', obj)
+        hotelOrderSub(obj)
+          .then((res)=>{
+            this.$router.push({path: '/orderManage/allOrders'})
+          })
       } else {
+        this.$store.dispatch('saveOrder', obj)
         this.$router.push({
           path: '/login',
           // 有需要转送的order
