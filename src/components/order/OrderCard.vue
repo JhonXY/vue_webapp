@@ -40,7 +40,22 @@ export default {
       'shopName'
     ]),
   },
-  props: ['have', 'left', 'price', 'live']
+  props: ['price', 'live'],
+  created(){
+    let have = []
+    if(this.$route.query.cancel) {
+      have.push(`${this.$route.query.cancelDate} 前可退`)
+    } else {
+      have.push(`不可退`)
+    }
+    if(this.$route.query.breakfast > 0) {
+      have.push(`${this.$route.query.breakfast}份早餐`)
+    } else {
+      have.push(`无早`)
+    }
+    have.push(`${this.$route.query.intro}`)
+    this.have = have
+  }
 }
 </script>
 

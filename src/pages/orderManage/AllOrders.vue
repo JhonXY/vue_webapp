@@ -6,18 +6,18 @@
     class="order-item" 
     v-for="(item, index) in orderStatus"
     :key="index"
-    @click="orderToggle(index)"
+    @click="orderToggle(index - 1)"
     >{{item}}</div>
   </div>
   <div class="order-container">
     <div v-for="(item, index) in orderList" class="order-item" :key="index">
       <dl>
         <dt class="title">
-          <div>{{item.name}}</div>
-          <div>{{item.statusDes}}</div>
+          <div>{{item.shopName}}</div>
+          <div>{{item.status | statusDes}}</div>
         </dt>
-        <dt class="item">下单时间 : {{item.time}}</dt>
-        <dt class="item">总价 : ￥{{item.price}}</dt>
+        <dt class="item">下单时间 : {{item.createdAt | formatTime}}</dt>
+        <dt class="item">总价 : ￥{{item.amount}}</dt>
       </dl>
     </div>
   </div>
@@ -25,13 +25,32 @@
 </template>
 
 <script>
+import { getOrders } from '@/apis/orders.js'
+import { mapGetters } from 'vuex';
+import moment from 'moment'
 export default {
   mounted(){
     this.getOrderList(-1)
   },
+  filters: {
+    statusDes(value){
+      // if (!value) return ''
+      value = value.toString()
+      switch(true){
+        case value === '0': return '待付款'
+        case value === '1': return '已付款'
+        case value === '2': return '已完成'
+        case value === '3': return '已退款'
+      }
+    },
+    formatTime(time){
+      let src = new Date(time)
+      return moment(time).format("YYYY-MM-DD HH:mm:ss")
+    }
+  },
   data(){
     return {
-      orderStatus: ['全部', '待付款', '待使用', '待评价'],
+      orderStatus: ['全部', '待付款', '已付款', '待评价'],
       orderToggleStatus: 0,
       // 需要接口
       orderList: [
@@ -45,13 +64,13 @@ export default {
   computed:{
     bottomLine(){
       switch(true){
-        case this.orderToggleStatus === 0:
+        case this.orderToggleStatus === -1:
           return 'bottom-line'
-        case this.orderToggleStatus === 1:
+        case this.orderToggleStatus === 0:
           return 'bottom-line index1'
-        case this.orderToggleStatus === 2:
+        case this.orderToggleStatus === 1:
           return 'bottom-line index2'
-        case this.orderToggleStatus === 3:
+        case this.orderToggleStatus === 2:
           return 'bottom-line index3'
         default:
           return 'bottom-line'
@@ -62,11 +81,16 @@ export default {
         case index === 0:
           return '待付款';
         case index === 1:
-          return '待使用';
+          return '已付款';
         case index === 2:
-          return '待评价';
+          return '已完成';
+        case index === 3:
+          return '已退款';
       }
-    }
+    },
+    ...mapGetters([
+      'userInfo'
+    ]),
   },
   methods: {
     orderToggle(index){
@@ -75,7 +99,9 @@ export default {
     },
     // -1全部，0待付款，1待使用，2待评价
     getOrderList(status){
-
+      getOrders(this.userInfo.id, status).then(res => {
+        this.orderList = res.data.data
+      })
     }
   }
 }

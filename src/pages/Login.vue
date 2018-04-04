@@ -49,17 +49,20 @@ export default {
           this.$store.dispatch('getUserInfo')
           this.$store.dispatch('toggleLogined')  
           
-          // 根据是否传参来判断是否需要传单
-          if(this.$router.params){
-            let obj = getStore('order')
-            console.log(obj);
+          // 根据是否传参来判断是否需要有需要保存的订单
+          if(Object.keys(this.$route.params).length > 0){
+            let user = getStore('userInfo').user
             
-            // hotelOrderSub(obj)
-            //   .then(res => {
-            //     if(res.success){
-            //       this.$router.push({path: '/orderManage/allOrders'})
-            //     }
-            //   })
+            let obj = getStore('order')
+            obj.userId = user.id
+            this.$store.dispatch('saveOrder', obj)
+
+            hotelOrderSub(obj)
+              .then(res => {         
+                if(res.data.success){
+                  this.$router.push({path: '/orderManage/allOrders'})
+                }
+              })
           } else {
             this.$router.push({ path: '/userInfo' })
           }

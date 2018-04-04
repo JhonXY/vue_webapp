@@ -21,6 +21,7 @@ const shopCar = {
         };
       }
       state.cartList = { ...cart };
+      
       setStore('shopCart', state.cartList);
     },
     REMOVE_CART: (state, options) => {

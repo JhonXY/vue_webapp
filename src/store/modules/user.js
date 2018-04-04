@@ -6,12 +6,12 @@ const user = {
     userInfo: {
       nickname: '登录/注册',
       phone: '登录后享受更多功能'
-    }
+    },
   },
   mutations: {
     GET_USERINFO: (state, init) => {
       if (init) {
-        state.userInfo = init
+        state.userInfo = init.user
       }
     },
     UPDATE_Logined: (state) => {

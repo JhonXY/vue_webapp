@@ -5,25 +5,14 @@
         <img :src="imgsrc" alt="">
       </div>
       <div class="room-introduce">
-        <h3>{{name}}</h3>
-        <p>{{introduce}}</p>
-        <p>{{breakfirst}}</p>
-        <p>{{cancel}}</p>
+        <h3>{{name}}房</h3>
+        <p>{{intro}}</p>
+        <p>{{breakfast ? `早餐 ${breakfast} 份` : '无早'}}</p>
+        <p>{{cancelDate}}前可退</p>
       </div>
     </div>
     <div class="room-item-r">
       <p>均￥<span class="room-price">{{price}}</span></p>
-      <!-- <router-link
-      tag="button"
-      :to="{
-        path: '/hostelorder', 
-        query: { 
-          name: this.forOrder.name
-        }
-      }"
-      class="room-reserve"
-      >预定
-      </router-link> -->
       <button 
         class="room-reserve"
         @click.stop="triggerOrder">
@@ -35,7 +24,7 @@
 
 <script>
 export default {
-  props: ['imgsrc', 'name', 'introduce', 'breakfirst', 'price', 'cancel', 'index'],
+  props: ['imgsrc', 'name', 'intro', 'breakfast', 'price', 'cancelDate', 'index'],
   methods: {
     // 用于弹窗的头部标题显示
     showDetails(){
@@ -44,6 +33,7 @@ export default {
     // 用于触发订单处理
     // 传递数组index确认具体床型信息位置
     triggerOrder(){
+      console.log('itemIndex', this.index);
       this.$emit('order', this.index)
     }
   }
