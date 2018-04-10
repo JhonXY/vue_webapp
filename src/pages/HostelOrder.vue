@@ -74,13 +74,13 @@ export default {
   },
   mounted(){
     let user = getStore('userInfo');
-    
-    if(user.user) {
+    if(user){
+      if(user.user) {
       this.userName = user.user.nickname;
       this.userPhone = user.user.phone;
       this.userId = user.user.id;
+      }
     }
-
     this.roomDetails = this.$route.query
   },
   data(){

@@ -144,24 +144,6 @@ export default {
           breakfirst: '单份早餐',
           price: '105',
           cancel: '当日19点前可取消'
-        },
-        {
-          id: '002',
-          imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-          name: '标准大床房',
-          introduce: '18㎡ 1张1.8m双人床 有wifi',
-          breakfirst: '单份早餐',
-          price: '115',
-          cancel: '当日19点前可取消'
-        },
-        {
-          id: '003',
-          imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-          name: '大床房',
-          introduce: '18㎡ 1张1.8m双人床 有wifi',
-          breakfirst: '单份早餐',
-          price: '120',
-          cancel: '当日19点前可取消'
         }
       ],
       showPicker: false,  // 控制日期选择显示
@@ -173,6 +155,7 @@ export default {
       canRecordInfo: false // 是否可以获取记录
     }
   },
+  // 路由钩子的回调触发在mounted之后
   beforeRouteEnter (to, from, next) {
   // 在导航完成前获取数据
     // 在前一个路由名为index时做店铺信息的共享操作
@@ -182,32 +165,29 @@ export default {
       // 所以对dom的操作（computed之类的）也会延后
       next(vm => {      
         vm.setCanRecord()
+        // 标识来自首页
+        vm.fromIndex = true
         // 如果能够获取到店铺信息，在vuex做存储
         vm.$store.dispatch('changeShopName', vm.$route.params.name)
-        vm.$store.dispatch('setShopId', vm.shopId)
+        vm.$store.dispatch('setShopId', vm.$route.query.shop)
         vm.$store.dispatch('setShopInfo', vm.details)
+
+        vm.getData(vm.$route.query.shop)
+      });
+    } else {
+      next(vm => {
+        vm.fromIndex = false
+        let storage = getStore('shopId'), id
+    
+        storage 
+          ? id = storage.shopId
+          : id = vm.shopId 
+
+        vm.getData(id)
       });
     }
-    next();
   },
   mounted(){
-    // 首页的跳转直接从路由中读
-    // 其他页的跳转从storage读
-    let storage = getStore('shopId'), shopId
-        
-    storage 
-      ? shopId = storage.shopId 
-      : shopId = this.$route.query.shopId
-    
-    // 获取旅店列表
-    getHotels({
-      shopId
-    }).then(res => {
-      this.roomList = res.data.data.data   
-      this.roomList.forEach(item => {
-        item.imgsrc = 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1'
-      })
-    })  
   },
   computed: {
     // 路由中传递的店铺信息
@@ -217,15 +197,16 @@ export default {
       }
     },
     // 路由中传递的店铺id
-    shopId(){
-      if(this.canRecordInfo) {
-        return this.$route.query.shop;
-      }
-    },
+    // shopId(){
+    //   if(this.canRecordInfo) {
+    //     return this.$route.query.shop;
+    //   }
+    // },
     ...mapGetters([
       'isLogined',
       'userInfo',
-      'forOrder'
+      'forOrder',
+      'shopId'
     ]),
   },
   components: {
@@ -237,6 +218,16 @@ export default {
     ShadeMask
   },
   methods: {
+    getData(id){
+      getHotels({
+        shopId: id
+      }).then(res => {
+        this.roomList = res.data.data.data   
+        this.roomList.forEach(item => {
+          item.imgsrc = 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1'
+        })
+      })  
+    },
     setCanRecord(){
       this.canRecordInfo = true
     },

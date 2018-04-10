@@ -42,10 +42,8 @@ export default {
           break;
         case 0 < re && re < 0.5: 
           this.b+=1;
-          console.log('b:'+this.b)
           break;
         case re <= 0: 
-          console.log('tiaoguo') 
           break;
       };
       this.c =5 - this.a - this.b;
