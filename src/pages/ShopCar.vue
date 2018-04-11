@@ -147,6 +147,7 @@ export default {
       shopId: this.$route.query.shopId,
       menuList: [
         {
+          // 分类
           name: '农家特色菜',
           description: '本店特色菜',
           id: 1,

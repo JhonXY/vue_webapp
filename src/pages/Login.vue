@@ -49,13 +49,14 @@ export default {
           this.$store.dispatch('getUserInfo')
           this.$store.dispatch('toggleLogined')  
           
-          // 根据是否传参来判断是否需要有需要保存的订单
+          console.log(this.$route.params);
+          
+          // 根据是否传参来判断是否有需要保存的订单
           if(Object.keys(this.$route.params).length > 0){
             let user = getStore('userInfo').user
             
             let obj = getStore('order')
             obj.userId = user.id
-            this.$store.dispatch('saveOrder', obj)
 
             hotelOrderSub(obj)
               .then(res => {         
