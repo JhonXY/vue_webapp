@@ -121,7 +121,7 @@ export default {
       } else {
         this.$store.dispatch('saveOrder', obj)
         this.$router.push({
-          path: '/login',
+          name: 'login',
           // 有需要转送的order
           params: {
             hasOrder: true
