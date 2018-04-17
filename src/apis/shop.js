@@ -25,3 +25,16 @@ export function getShopsList(params) {
     // params会将参数存到url后
   })
 }
+
+export function getFoodItems(params) {
+  const token = getStore('token')
+
+  return fetch({
+    url: '/shops/getFoodItems',
+    method: 'get',
+    headers: {
+      'Authorization': 'Bearer' + token.token
+    },
+    params
+  })
+}
