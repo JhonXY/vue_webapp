@@ -138,6 +138,7 @@
 import BScroll from 'better-scroll';
 import BuyCar from '@/components/shopcar/BuyCar.vue';
 import HeadTop from '@/components/index/HeadTop.vue';
+import { getFoodItems } from '@/apis/shop';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -295,6 +296,42 @@ export default {
   // 从本地读取购物车信息
   beforeCreate(){
     this.$store.commit('INIT_CART')
+  },
+  // 此时data已产生
+  created(){
+    getFoodItems({shopId: this.$route.query.shopId}).then(res => {
+      let data = res.data.data
+      let list = [], categoryList = [], tmp=[]
+      data.forEach(item => {
+        let foodItem = {
+          _id: item.id,
+          category_id: item.shopfoodcategory_id,
+          name: item.name,
+          price: item.price,
+          introduction: item.introduction,
+          tips: item.tips,
+          specialty: false,
+          imgsrc: item.imgdata,
+          unit: item.unit,
+          more: []
+        }
+        // 新的分类     
+        if(!tmp.includes(item.category)){
+          tmp.push(item.category)
+          categoryList.push({
+            name: item.category,
+            id: item.shopfoodcategory_id
+          })
+          categoryList[categoryList.length-1].foods = []
+          categoryList[categoryList.length-1].foods.push(foodItem)
+        } else {
+          // 已有的分类
+          categoryList[tmp.indexOf(item.category)].foods.push(foodItem)
+        }
+      })
+      // console.log(categoryList);
+      this.menuList = categoryList
+    })
   },
   components: {
     BuyCar,
