@@ -29,6 +29,19 @@ export function hotelOrderSub(data) {
     data
   })
 }
+
+// 提交食品订单
+export function foodOrderSub(data) {
+  const token = getStore('token')
+  return fetch({
+    url: '/orders/subFoodOrder',
+    method: 'post',
+    headers: {
+      'Authorization': 'Bearer ' + token.token
+    },
+    data
+  })
+}
 // 提交hotel订单
 // export function hotelOrderSub(data) {
 //   return fetch({

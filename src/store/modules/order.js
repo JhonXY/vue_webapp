@@ -7,6 +7,7 @@ const order = {
     howLong: '',
     shopName: '',
     currentOrder: '',
+    currentFoodOrder: '',
     amount: 0
   },
   mutations: {
@@ -32,6 +33,17 @@ const order = {
       setStore('order', options)
       state.currentOrder = options
       state.amount = options.amount
+    },
+    // 持久化一个食物订单
+    // 只保持一个持久化暂存
+    SAVE_FOOD_ORDER: (state, options) => {
+      console.log(options);
+      if (getStore('foodOrder')) {
+        removeStore('foodOrder')
+      }
+      setStore('foodOrder', options)
+      state.currentFoodOrder = options
+      // state.amount = options.amount
     }
   },
   actions: {
@@ -49,6 +61,9 @@ const order = {
     },
     saveOrder: ({ commit }, options) => {
       commit('SAVE_ORDER', options);
+    },
+    saveFoodOrder: ({ commit }, options) => {
+      commit('SAVE_FOOD_ORDER', options);
     },
   }
 }

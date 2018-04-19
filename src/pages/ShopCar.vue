@@ -147,129 +147,129 @@ export default {
       //根据shopId来获取menuList
       shopId: this.$route.query.shopId,
       menuList: [
-        {
-          // 分类
-          name: '农家特色菜',
-          description: '本店特色菜',
-          id: 1,
-          foods: [
-            {
-              _id: 11,
-              category_id: 1,
-              name: '黄瓜',
-              price: 100,
-              introduction: '那你怕不是很棒棒',
-              tips: '100评价 月售1000',
-              specialty: true,
-              imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-              more: []
-            },
-            { 
-              _id: 22,
-              category_id: 1,
-              name: '黄瓜',
-              price: 100,
-              introduction: '那你怕不是很棒棒',
-              tips: '100评价 月售1000',
-              specialty: true,
-              imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-              more: []
-            },
-            {
-              _id: 33,
-              category_id: 1,
-              name: '黄瓜',
-              price: 100,
-              introduction: '那你怕不是很棒棒',
-              tips: '100评价 月售1000',
-              specialty: false,
-              imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-              more: []
-            },
-            {
-              _id: 44,
-              category_id: 1,
-              name: '黄瓜',
-              price: 100,
-              introduction: '那你怕不是很棒棒',
-              tips: '100评价 月售1000',
-              specialty: true,
-              imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-              more: []
-            },
-          ],
-        },
-        {
-          name: '农家特色菜',
-          description: '本店特色菜',
-          id: 2,
-          foods: [
-            {
-              _id: 55,
-              category_id: 2,
-              name: '黄瓜',
-              price: 100,
-              introduction: '那你怕不是很棒棒',
-              tips: '100评价 月售1000',
-              specialty: false,
-              imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-              more: []
-            },
-            {
-              _id: 66,
-              category_id: 2,
-              name: '黄瓜',
-              price: 100,
-              introduction: '那你怕不是很棒棒',
-              tips: '100评价 月售1000',
-              specialty: false,
-              imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-              more: []
-            },
-            {
-              _id: 77,
-              category_id: 2,
-              name: '黄瓜',
-              price: 100,
-              introduction: '那你怕不是很棒棒',
-              tips: '100评价 月售1000',
-              specialty: true,
-              imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-              more: []
-            },
-          ]
-        },
-        {
-          name: '农家特色菜',
-          description: '本店特色菜',
-          id: 3,
-          foods: [
-            {
-              _id: 88,
-              category_id: 3,
-              name: '黄瓜',
-              price: 100,
-              introduction: '那你怕不是很棒棒',
-              tips: '100评价 月售1000',
-              specialty: false,
-              imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-              more: [
+        // {
+        //   // 分类
+        //   name: '农家特色菜',
+        //   description: '本店特色菜',
+        //   id: 1,
+        //   foods: [
+        //     {
+        //       _id: 11,
+        //       category_id: 1,
+        //       name: '黄瓜',
+        //       price: 100,
+        //       introduction: '那你怕不是很棒棒',
+        //       tips: '100评价 月售1000',
+        //       specialty: true,
+        //       imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
+        //       more: []
+        //     },
+        //     { 
+        //       _id: 22,
+        //       category_id: 1,
+        //       name: '黄瓜',
+        //       price: 100,
+        //       introduction: '那你怕不是很棒棒',
+        //       tips: '100评价 月售1000',
+        //       specialty: true,
+        //       imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
+        //       more: []
+        //     },
+        //     {
+        //       _id: 33,
+        //       category_id: 1,
+        //       name: '黄瓜',
+        //       price: 100,
+        //       introduction: '那你怕不是很棒棒',
+        //       tips: '100评价 月售1000',
+        //       specialty: false,
+        //       imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
+        //       more: []
+        //     },
+        //     {
+        //       _id: 44,
+        //       category_id: 1,
+        //       name: '黄瓜',
+        //       price: 100,
+        //       introduction: '那你怕不是很棒棒',
+        //       tips: '100评价 月售1000',
+        //       specialty: true,
+        //       imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
+        //       more: []
+        //     },
+        //   ],
+        // },
+        // {
+        //   name: '农家特色菜',
+        //   description: '本店特色菜',
+        //   id: 2,
+        //   foods: [
+        //     {
+        //       _id: 55,
+        //       category_id: 2,
+        //       name: '黄瓜',
+        //       price: 100,
+        //       introduction: '那你怕不是很棒棒',
+        //       tips: '100评价 月售1000',
+        //       specialty: false,
+        //       imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
+        //       more: []
+        //     },
+        //     {
+        //       _id: 66,
+        //       category_id: 2,
+        //       name: '黄瓜',
+        //       price: 100,
+        //       introduction: '那你怕不是很棒棒',
+        //       tips: '100评价 月售1000',
+        //       specialty: false,
+        //       imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
+        //       more: []
+        //     },
+        //     {
+        //       _id: 77,
+        //       category_id: 2,
+        //       name: '黄瓜',
+        //       price: 100,
+        //       introduction: '那你怕不是很棒棒',
+        //       tips: '100评价 月售1000',
+        //       specialty: true,
+        //       imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
+        //       more: []
+        //     },
+        //   ]
+        // },
+        // {
+        //   name: '农家特色菜',
+        //   description: '本店特色菜',
+        //   id: 3,
+        //   foods: [
+        //     {
+        //       _id: 88,
+        //       category_id: 3,
+        //       name: '黄瓜',
+        //       price: 100,
+        //       introduction: '那你怕不是很棒棒',
+        //       tips: '100评价 月售1000',
+        //       specialty: false,
+        //       imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
+        //       more: [
 
-              ]
-            },
-            {
-              _id: 99,
-              category_id: 3,
-              name: '黄瓜',
-              price: 100,
-              introduction: '那你怕不是很棒棒',
-              tips: '100评价 月售1000',
-              specialty: false,
-              imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-              more: []
-            }
-          ]
-        }
+        //       ]
+        //     },
+        //     {
+        //       _id: 99,
+        //       category_id: 3,
+        //       name: '黄瓜',
+        //       price: 100,
+        //       introduction: '那你怕不是很棒棒',
+        //       tips: '100评价 月售1000',
+        //       specialty: false,
+        //       imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
+        //       more: []
+        //     }
+        //   ]
+        // }
       ],
       active: 0, // 已经激活的菜单项
       menuIndexChange: true,//解决选中index时，scroll监听事件重复判断设置index的bug
@@ -289,8 +289,6 @@ export default {
   mounted(){
     this.windowHeight = window.innerHeight;
     this.$nextTick(() => {
-      this.getFoodListHeight()
-      this.initPresentCartList()
     })
   },
   // 从本地读取购物车信息
@@ -310,7 +308,7 @@ export default {
           price: item.price,
           introduction: item.introduction,
           tips: item.tips,
-          specialty: false,
+          specialty: true,
           imgsrc: item.imgdata,
           unit: item.unit,
           more: []
@@ -330,7 +328,11 @@ export default {
         }
       })
       // console.log(categoryList);
+      // 生成店铺菜单
       this.menuList = categoryList
+      // 生成菜单后操作
+      this.getFoodListHeight()
+      this.initPresentCartList()
     })
   },
   components: {
@@ -410,7 +412,10 @@ export default {
       this.presentCartList = []; // 当前商店购物车
       this.totalPrice = 0; // 当前商店总值
       this.menuList.forEach((item, index) => {
-        if(this.shopCart&&this.shopCart[item.foods[0].category_id]){ // 通过分类来做循环
+        // if(this.shopCart&&this.shopCart[item.foods[0].category_id]){ // 通过分类来做循环
+        console.log(item);
+        
+        if(this.shopCart){ // 通过分类来做循环
           let num = 0;
           Object.keys(this.shopCart[item.foods[0].category_id]).forEach(itemid => {  // 通过Objects.keys取到遍历数组
             Object.keys(this.shopCart[item.foods[0].category_id][itemid]).forEach(foodid => {

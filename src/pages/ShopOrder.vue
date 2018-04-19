@@ -28,8 +28,8 @@
           <i></i>
           <p class="info-location">{{this.location}}</p>
           <p class="info-user">
-            <span>{{userInfo.user?userInfo.user.nickname:'暂无'}} {{sex}}</span>
-            <span>联系电话：{{(userInfo.user?userInfo.user.phone:'暂无') }}</span>
+            <span>{{purchaser}} {{sex}}</span>
+            <span>联系电话：{{phone}}</span>
           </p>
         </div>
       </div>
@@ -38,7 +38,10 @@
       <div class="order-footer-price">
         总价：￥{{this.$route.params.total}}
       </div>
-      <div class="order-footer-confirm router-link-active">
+      <div 
+        class="order-footer-confirm router-link-active"
+        @click="orderSub"
+      >
         提交订单
       </div>
     </section>
@@ -47,33 +50,92 @@
 
 <script> 
 import { mapGetters } from 'vuex';
+import { getStore } from '@/utils/storage.js'
+import { generateUUID } from '@/utils/uuid.js'
+import { foodOrderSub } from '@/apis/users.js'
 
 export default {
   data(){
     return {
-      // userInfo: {
-      //   nickname: 'lalala',
-      //   sex: '1', // 男性为1
-      //   phone: '13333333333'
-      // }
+
     }
   },
   computed: {
     // 需要获取用户的个人Info,应预先存入vuex
     ...mapGetters([
       'location',
-      'userInfo'
+      'userInfo',
+      'shopId',
+      'shopName',
+      'isLogined'
     ]),
-    sex(){
-      if (this.userInfo.nickname){
-        return ''
+    purchaser(){
+      if(this.userInfo && this.userInfo.nickname !== '登录/注册') {
+        return this.userInfo.nickname
+      } else if(this.userName) {
+        return this.userName
       } else {
-        return this.userInfo.user.sex ? '先生' : '女士';
+        return '暂无'
+      }
+      // userInfo.user?:'暂无'
+    },
+    phone(){
+      // 直接从vuex读取
+      if(this.userInfo && this.userInfo.phone !== "登录后享受更多功能") {
+        return this.userInfo.phone
+      // 从持久化中读取
+      } else if(this.userPhone) {
+        return this.userPhone
+      } else {
+        return '暂无'
+      }
+    },
+    sex(){
+      if (this.userInfo && this.userInfo.nickname !== '登录/注册'){
+        return this.userInfo.sex ? '先生' : '女士';
       }
     }
   },
+  beforeCreate(){
+    // 这里的user是持久化的user信息
+    let user = getStore('userInfo');
+    if(user){
+      if(user.user) {
+        this.userName = user.user.nickname;
+        this.userPhone = user.user.phone;
+        this.userId = user.user.id;
+      }
+    }  
+  },
+  mounted(){
+  },
   methods: {
-
+    orderSub(){
+      let { shopName, shopId, purchaser, phone } = this
+      let amount = this.$route.params.total,
+          orderDetail = JSON.stringify(this.$route.params.order),
+          obj = {
+            shopName, shopId, purchaser, phone, orderDetail, amount
+            // 还需要购买人id
+          }
+      if(this.isLogined){
+        obj.userId = this.userInfo.id
+        this.$store.dispatch('saveFoodOrder', obj)
+        foodOrderSub(obj)
+          .then((res)=>{
+            this.$router.push({path: '/orderManage/allOrders'})
+          })
+      } else {
+        this.$store.dispatch('saveOrder', obj)
+        this.$router.push({
+          name: 'login',
+          // 有需要转送的order
+          params: {
+            hasFoodOrder: true
+          }
+        })
+      }
+    }
   }
 }
 </script>
