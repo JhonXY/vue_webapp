@@ -16,7 +16,7 @@
 import HeadTop from '../components/index/HeadTop.vue';
 import { setStore, getStore } from '@/utils/storage.js';
 import { login } from '@/apis/login.js';
-import { hotelOrderSub } from '@/apis/users.js'
+import { hotelOrderSub, foodOrderSub } from '@/apis/users.js'
 import { XButton } from 'vux';
 import { Group } from 'vux';
 import { XInput } from 'vux';
@@ -49,21 +49,41 @@ export default {
           this.$store.dispatch('getUserInfo')
           this.$store.dispatch('toggleLogined')  
           
-          console.log(this.$route.params);
-          
           // 根据是否传参来判断是否有需要保存的订单
           if(Object.keys(this.$route.params).length > 0){
-            let user = getStore('userInfo').user
+            // 旅店订单处理
+            if('hasOrder' in this.$route.params){
+              let user = getStore('userInfo').user
             
-            let obj = getStore('order')
-            obj.userId = user.id
+              let obj = getStore('order')
+              obj.userId = user.id
 
-            hotelOrderSub(obj)
-              .then(res => {         
-                if(res.data.success){
-                  this.$router.push({path: '/orderManage/allOrders'})
-                }
-              })
+              hotelOrderSub(obj)
+                .then(res => {         
+                  if(res.data.success){
+                    this.$router.push({path: '/orderManage/allOrders'})
+                  }
+                })
+            }
+            // 食物订单处理
+            if('hasFoodOrder' in this.$route.params){
+              let user = getStore('userInfo').user
+              console.log(user);
+              
+              let obj = getStore('foodOrder')  
+              obj.userId = user.id
+              obj.purchaser = user.nickname
+              obj.phone = user.phone
+              console.log(obj);
+              
+              foodOrderSub(obj)
+                .then(res => {         
+                  if(res.data.success){
+                    this.$router.push({path: '/orderManage/allOrders'})
+                  }
+                })
+            }
+            
           } else {
             this.$router.push({ path: '/userInfo' })
           }
