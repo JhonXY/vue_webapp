@@ -17,3 +17,18 @@ export function getOrders(id, status) {
     }
   })
 }
+
+export function getFoodOrders(id, status) {
+  const token = getStore('token')
+  return fetch({
+    url: '/orders/getFoodOrder',
+    method: 'get',
+    headers: {
+      'Authorization': 'Bearer ' + token.token
+    },
+    params: {
+      userId: id,
+      status
+    }
+  })
+}

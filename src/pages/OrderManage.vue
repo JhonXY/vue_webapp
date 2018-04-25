@@ -29,6 +29,8 @@
 <script>
 import HeadTop from '../components/index/HeadTop.vue'
 // import OrderList from '../components/order/OrderList.vue'
+import getSocket from '@/apis/socket'
+
 export default {
   data(){
     return {
@@ -43,6 +45,21 @@ export default {
   },
   components: {
     HeadTop
+  },
+  mounted(){
+    let query = this.$route.query
+    if(query.hasOwnProperty('forSocket')){
+      const socket = getSocket()
+      console.log('socket');
+      
+      socket.emit('getNewOrder', {
+        shopId: query.shopId
+      })
+      console.log(socket);
+      setTimeout(() => {
+        socket.io.off()
+      }, 1000)
+    }
   },
   methods: {
     toggleList(){
@@ -84,6 +101,7 @@ export default {
     justify-content: space-around;
     align-items: center;
     li {
+      list-style: none;
       font-size: .7rem;
       text-align: center;
       border: 1px solid #bfbfbf;

@@ -17,9 +17,9 @@ import HeadTop from '../components/index/HeadTop.vue';
 import { setStore, getStore } from '@/utils/storage.js';
 import { login } from '@/apis/login.js';
 import { hotelOrderSub, foodOrderSub } from '@/apis/users.js'
-import { XButton } from 'vux';
-import { Group } from 'vux';
-import { XInput } from 'vux';
+import { XButton, XInput, Group } from 'vux';
+import { mapGetters } from 'vuex';
+// import getSocket from '@/apis/socket'
 
 export default {
   components: {
@@ -27,6 +27,12 @@ export default {
     Group,
     XButton,
     XInput
+  },
+  computed: {
+    // 需要获取用户的个人Info,应预先存入vuex
+    ...mapGetters([
+      'shopId'
+    ]),
   },
   data() {
     return {
@@ -61,7 +67,10 @@ export default {
               hotelOrderSub(obj)
                 .then(res => {         
                   if(res.data.success){
-                    this.$router.push({path: '/orderManage/allOrders'})
+                    this.$router.push({
+                      path: '/orderManage/allOrders', 
+                      query: { forSocket: true, shopId: this.shopId }
+                    })
                   }
                 })
             }
@@ -79,7 +88,10 @@ export default {
               foodOrderSub(obj)
                 .then(res => {         
                   if(res.data.success){
-                    this.$router.push({path: '/orderManage/allOrders'})
+                    this.$router.push({
+                      path: '/orderManage/allOrders', 
+                      query: { forSocket: true, shopId: this.shopId }
+                    })
                   }
                 })
             }

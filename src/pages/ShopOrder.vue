@@ -53,6 +53,7 @@ import { mapGetters } from 'vuex';
 import { getStore } from '@/utils/storage.js'
 import { generateUUID } from '@/utils/uuid.js'
 import { foodOrderSub } from '@/apis/users.js'
+import getSocket from '@/apis/socket'
 
 export default {
   data(){
@@ -118,21 +119,26 @@ export default {
             shopName, shopId, purchaser, phone, orderDetail, amount
             // 还需要购买人id
           }
+
+      // socket.emit('getNewOrder', {
+      //   shopId: this.shopId
+      // })
       if(this.isLogined){
         obj.userId = this.userInfo.id
         this.$store.dispatch('saveFoodOrder', obj)
         foodOrderSub(obj)
           .then((res)=>{
-            this.$router.push({path: '/orderManage/allOrders'})
+            this.$router.push({
+              path: '/orderManage/allOrders', 
+              query: { forSocket: true, shopId: this.shopId }
+            })
           })
       } else {
         this.$store.dispatch('saveOrder', obj)
         this.$router.push({
           name: 'login',
           // 有需要转送的order
-          params: {
-            hasFoodOrder: true
-          }
+          params: { hasFoodOrder: true }
         })
       }
     }

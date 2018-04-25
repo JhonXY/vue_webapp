@@ -56,6 +56,7 @@ export const routes = [
     meta: { auth: true },
     children: [
       {
+        name: 'allOrder',
         path: 'allOrders',
         component: AllOrders
       },
