@@ -4,11 +4,11 @@
     <div v-for="(item, index) in orderList" class="order-item" :key="index">
       <dl>
         <dt class="title">
-          <div>{{item.name}}</div>
-          <div>{{item.statusDes}}</div>
+          <div>{{item.shopName}}</div>
+          <div>{{item.status | statusDes}}</div>
         </dt>
-        <dt class="item">下单时间 : {{item.time}}</dt>
-        <dt class="item">总价 : ￥{{item.price}}</dt>
+        <dt class="item">下单时间 : {{item.createdAt | formatTime}}</dt>
+        <dt class="item">总价 : ￥{{item.amount}}</dt>
       </dl>
     </div>
   </div>
@@ -16,10 +16,47 @@
 </template>
 
 <script>
+import { getFoodOrders } from '@/apis/orders.js'
+import { mapGetters } from 'vuex';
+import moment from 'moment'
+
 export default {
-  data: {
-    // 从vuex中调用
-    orderList: []
+  data(){
+    return {
+      orderList: []
+    }
+  },
+  mounted(){
+    this.getOrderList(-1)
+  },
+  filters: {
+    statusDes(value){
+      // if (!value) return ''
+      value = value.toString()
+      switch(true){
+        case value === '0': return '待付款'
+        case value === '1': return '已付款'
+        case value === '2': return '已完成'
+        case value === '3': return '已退款'
+      }
+    },
+    formatTime(time){
+      let src = new Date(time)
+      return moment(time).format("YYYY-MM-DD HH:mm:ss")
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ]),
+  },
+  methods: {
+    // -1全部，0待付款，1待使用，2待评价
+    getOrderList(status){
+      getFoodOrders(this.userInfo.id, status).then(res => {
+        this.orderList = res.data.data     
+      })
+    }
   }
 }
 </script>

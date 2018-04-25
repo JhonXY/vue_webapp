@@ -25,9 +25,10 @@
 </template>
 
 <script>
-import { getOrders } from '@/apis/orders.js'
-import { mapGetters } from 'vuex';
+import { getOrders, getFoodOrders } from '@/apis/orders.js'
+import { mapGetters } from 'vuex'
 import moment from 'moment'
+
 export default {
   mounted(){
     this.getOrderList(-1)
@@ -53,12 +54,7 @@ export default {
       orderStatus: ['全部', '待付款', '已付款', '待评价'],
       orderToggleStatus: 0,
       // 需要接口
-      orderList: [
-        {name: '测试',status: 0,statusDes: '待付款',time: '2017910',price: 123},
-        {name: '测试过长标题测试测试测试测试测试',status: 0,statusDes: '待付款',time: '2017910',price: 123},
-        {name: '测试',status: 0,statusDes: '待付款',time: '2017910',price: 123},
-        {name: '测试',status: 0,statusDes: '待付款',time: '2017910',price: 123},
-      ]
+      orderList: []
     }
   },
   computed:{
@@ -101,6 +97,12 @@ export default {
     getOrderList(status){
       getOrders(this.userInfo.id, status).then(res => {
         this.orderList = res.data.data
+      })
+      getFoodOrders(this.userInfo.id, status).then(res => {
+        res.data.data.reduce((pre, cur) => {
+          pre.push(cur)
+          return pre
+        }, this.orderList)
       })
     }
   }

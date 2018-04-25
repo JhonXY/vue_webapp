@@ -93,9 +93,7 @@ export default {
   },
   methods: {
     orderSub(){
-      // 防止stringfy循环引用报错
-      console.log(this.shopId);
-      
+      // 防止stringfy循环引用报错  
       let { checkIn,checkOut,howLong,shopName } = this
       let amount = howLong*this.roomDetails.price
       let obj = {
@@ -110,13 +108,19 @@ export default {
       
       // 未登录先登录
       // 已登录直接提交订单
+      // socket.emit('getNewOrder', {
+      //   shopId: this.shopId
+      // })
       if(this.isLogined) {
         obj.userId = this.userInfo.id
         console.log('logined', obj);
         this.$store.dispatch('saveOrder', obj)
         hotelOrderSub(obj)
           .then((res)=>{
-            this.$router.push({path: '/orderManage/allOrders'})
+            this.$router.push({
+              path: '/orderManage/allOrders',
+              query: { forSocket: true, shopId: this.shopId }
+            })
           })
       } else {
         this.$store.dispatch('saveOrder', obj)
