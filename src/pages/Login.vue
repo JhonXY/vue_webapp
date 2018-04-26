@@ -69,7 +69,11 @@ export default {
                   if(res.data.success){
                     this.$router.push({
                       path: '/orderManage/allOrders', 
-                      query: { forSocket: true, shopId: this.shopId }
+                      query: { 
+                        forSocket: true, 
+                        shopId: this.shopId,
+                        orderType: 0 
+                      }
                     })
                   }
                 })
@@ -90,7 +94,11 @@ export default {
                   if(res.data.success){
                     this.$router.push({
                       path: '/orderManage/allOrders', 
-                      query: { forSocket: true, shopId: this.shopId }
+                      query: { 
+                        forSocket: true, 
+                        shopId: this.shopId,
+                        orderType: 1
+                      }
                     })
                   }
                 })

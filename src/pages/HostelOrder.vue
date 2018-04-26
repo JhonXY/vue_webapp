@@ -119,7 +119,11 @@ export default {
           .then((res)=>{
             this.$router.push({
               path: '/orderManage/allOrders',
-              query: { forSocket: true, shopId: this.shopId }
+              query: { 
+                forSocket: true, 
+                shopId: this.shopId,
+                orderType: 0
+              }
             })
           })
       } else {
