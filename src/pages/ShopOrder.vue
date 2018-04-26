@@ -130,7 +130,12 @@ export default {
           .then((res)=>{
             this.$router.push({
               path: '/orderManage/allOrders', 
-              query: { forSocket: true, shopId: this.shopId }
+              query: { 
+                forSocket: true, 
+                shopId: this.shopId,
+                // 食物订单类别
+                orderType: 1
+              }
             })
           })
       } else {

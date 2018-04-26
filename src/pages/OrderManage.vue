@@ -30,6 +30,7 @@
 import HeadTop from '../components/index/HeadTop.vue'
 // import OrderList from '../components/order/OrderList.vue'
 import getSocket from '@/apis/socket'
+import { setStore, getStore } from '@/utils/storage.js';
 
 export default {
   data(){
@@ -50,14 +51,15 @@ export default {
     let query = this.$route.query
     if(query.hasOwnProperty('forSocket')){
       const socket = getSocket()
-      console.log('socket');
-      
+      let data = query.orderType ? getStore('foodOrder') : getStore('order')
+
       socket.emit('getNewOrder', {
-        shopId: query.shopId
+        shopId: query.shopId,
+        data
       })
-      console.log(socket);
+      
       setTimeout(() => {
-        socket.io.off()
+        socket.disconnect()
       }, 1000)
     }
   },
@@ -101,7 +103,6 @@ export default {
     justify-content: space-around;
     align-items: center;
     li {
-      list-style: none;
       font-size: .7rem;
       text-align: center;
       border: 1px solid #bfbfbf;
