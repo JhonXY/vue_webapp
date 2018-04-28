@@ -17,7 +17,7 @@ export function getOrders(id, status) {
     }
   })
 }
-
+// 读取食物订单
 export function getFoodOrders(id, status) {
   const token = getStore('token')
   return fetch({
