@@ -53,11 +53,17 @@ export default {
       const socket = getSocket()
       let data = query.orderType ? getStore('foodOrder') : getStore('order')
 
-      socket.emit('getNewOrder', {
-        shopId: query.shopId,
-        data
-      })
+      console.log(data);
+      let json = JSON.stringify(data)
+      // console.log(json);
       
+      socket.emit('getNewOrder', {
+        // 当前店铺的id
+        shopId: query.shopId,
+        // 0 普通订单， 1 食物订单
+        type: query.orderType
+      })
+
       setTimeout(() => {
         socket.disconnect()
       }, 1000)
