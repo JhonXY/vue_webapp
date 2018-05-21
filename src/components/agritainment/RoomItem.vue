@@ -8,7 +8,8 @@
         <h3>{{name}}房</h3>
         <p>{{intro}}</p>
         <p>{{breakfast ? `早餐 ${breakfast} 份` : '无早'}}</p>
-        <p>{{cancelDate}}前可退</p>
+        <p v-if="cancel == 1">{{cancelDate}}前可退</p>
+        <p v-if="cancel == 0">不可退</p>
       </div>
     </div>
     <div class="room-item-r">
@@ -24,7 +25,7 @@
 
 <script>
 export default {
-  props: ['imgsrc', 'name', 'intro', 'breakfast', 'price', 'cancelDate', 'index'],
+  props: ['imgsrc', 'name', 'intro', 'breakfast', 'cancel', 'price', 'cancelDate', 'index'],
   methods: {
     // 用于弹窗的头部标题显示
     showDetails(){

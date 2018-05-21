@@ -11,7 +11,7 @@
   </div>
   <div class="order-container">
     <div v-for="(item, index) in orderList" class="order-item" :key="index">
-      <dl>
+      <dl @click="testPing(item.amount)">
         <dt class="title">
           <div>{{item.shopName}}</div>
           <div>{{item.status | statusDes}}</div>
@@ -26,6 +26,7 @@
 
 <script>
 import { getOrders, getFoodOrders } from '@/apis/orders.js'
+import { alipay } from '@/apis/users.js'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 
@@ -92,6 +93,11 @@ export default {
     orderToggle(index){
       this.orderToggleStatus = index;
       this.getOrderList(index)
+    },
+    testPing(amount){
+      alipay({amount}).then(res =>{
+        console.log(res);
+      })
     },
     // -1全部，0待付款，1待使用，2待评价
     getOrderList(status){

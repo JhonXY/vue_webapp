@@ -12,7 +12,7 @@
     </div>
     <ul class="shop-introduce">
       <li>
-        <rating :rate="moreDetails.rate"></rating>
+        <rating :rate="rate"></rating>
         <div class="right-con">
           <span class="right-content">评价</span>
         </div>
@@ -152,7 +152,8 @@ export default {
       howLong: '',  // 住多少天
       showRoomDetails: false,  // 控制房间详情的显示
       roomShowName: '', // 哪个房间需要显示详情
-      canRecordInfo: false // 是否可以获取记录
+      canRecordInfo: false, // 是否可以获取记录
+      rate: 5
     }
   },
   // 路由钩子的回调触发在mounted之后
@@ -222,7 +223,18 @@ export default {
       getHotels({
         shopId: id
       }).then(res => {
-        this.roomList = res.data.data.data   
+        this.roomList = res.data.data.data 
+        this.moreDetails = {
+          name: res.data.data.shop.name,
+          address: {
+            fir: res.data.data.shop.area,
+            sec: '万达商圈',
+            coordinates: [res.data.data.shop.longitude, res.data.data.shop.latitude]
+          },
+          tele: res.data.data.shop.tele,
+          rate: res.data.data.shop.rate
+        }
+        this.rate = res.data.data.shop.rate
         this.roomList.forEach(item => {
           item.imgsrc = 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1'
         })
@@ -313,6 +325,7 @@ export default {
   background: #666;
   position: relative;
   overflow: hidden;
+  background-image: url(../assets/images/welcome.gif);
   .vr {
     position: absolute;
     top: .5rem;

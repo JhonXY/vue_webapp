@@ -9,6 +9,14 @@ export function register(data) {
   })
 }
 
+export function alipay(data) {
+  return fetch({
+    url: '/users/alipay',
+    method: 'post',
+    data
+  })
+}
+
 export function userInfo(params) {
   return fetch({
     url: '/users/userInfo',
