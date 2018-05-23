@@ -88,8 +88,11 @@
       @initDay="initDay">
     </date-picker>
     <room-details 
+      @order="initOrder"
       ref="details" 
       :title="roomShowName" 
+      :item="roomItem" 
+      :index="detailIndex"
       v-show="showRoomDetails" 
       @hideRoomDetails="hideRoomDetails">
     </room-details>
@@ -135,17 +138,7 @@ export default {
         rate: 3.1
       },
       // 需要接口
-      roomList:[
-        {
-          id: '001',
-          imgsrc: 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1',
-          name: '标准床房',
-          introduce: '18㎡ 1张1.8m双人床 有wifi 2132312312fdsfdsfsdffddfdfdfdfdfdfsdfdsffdsfdfdfdsfdfdsfsdfsdfdfsfsdfsdfsd',
-          breakfirst: '单份早餐',
-          price: '105',
-          cancel: '当日19点前可取消'
-        }
-      ],
+      roomList:[],
       showPicker: false,  // 控制日期选择显示
       beginTime: '',  // 住店时间
       endTime: '',  // 离店时间
@@ -153,6 +146,8 @@ export default {
       showRoomDetails: false,  // 控制房间详情的显示
       roomShowName: '', // 哪个房间需要显示详情
       canRecordInfo: false, // 是否可以获取记录
+      roomItem: null,
+      detailIndex: 0, 
       rate: 5
     }
   },
@@ -269,10 +264,16 @@ export default {
       this.$store.dispatch('changeCheckIn', startDate)
       this.$store.dispatch('changeCheckOut', endDate)
     },
-    getRoomDetails(title){
-      this.roomShowName = title;
+    // 获取当前信息详情
+    getRoomDetails(index){
+      this.roomShowName = this.roomList[index].name
+      this.roomItem = this.roomList[index]
+      this.detailIndex = index
+
       this.showRoomDetails = true;
       this.$refs.mask.on = true;
+
+      // 触发弹窗需要触发动画，不能同步改变属性，需要先装载组件，再改变组件属性
       setTimeout(()=>{
         this.$refs.details.hide = false;
       }, 100)
@@ -284,10 +285,7 @@ export default {
         query: { 
           hotelId: this.roomList[index].id,
           ...this.roomList[index]
-        },
-        // params: {
-          
-        // }
+        }
       })
     },
     // 隐藏床型具体信息弹层

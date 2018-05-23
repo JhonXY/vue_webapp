@@ -4,6 +4,7 @@ import Vue from 'vue';
 import FastClick from 'fastclick';
 import AMap from 'vue-amap';
 import App from './App';
+import  { AlertPlugin } from 'vux'
 
 import store from './store';
 import router from './router';
@@ -46,6 +47,8 @@ AMap.initAMapApiLoader({
   key: 'b24cb87ddac059194fed7475d6f22ad8',
   plugin: ['AMap.Geolocation', 'AMap.CitySearch', 'AMap.PlaceSearch']
 });
+
+Vue.use(AlertPlugin)
 
 /* eslint-disable no-new */
 new Vue({

@@ -35,16 +35,11 @@ onmousewheel="return false;">
     </section>
   </div>
   <div class="room-details-footer">
-    <div class="room-details-price">￥{{roomDetails.price}}</div>
-    <router-link 
-      :to="{
-        path: '/hostelorder', 
-        query: { 
-          name: this.title
-        }
-      }" 
-      tag="div" 
-      v-if="roomDetails.left> 0" class="can-pay">预定</router-link>
+    <div class="room-details-price">{{itemPrice}}</div>
+    <div
+      @click.stop="triggerOrder"
+      v-if="roomDetails.left> 0" 
+      class="can-pay">预定</div>
     <div v-else class="none">满房</div>    
   </div>
 </div>
@@ -72,11 +67,22 @@ export default {
         left: 1,
         price: '125'
       },
+      showItem: null,
       hide: true
     }
   },
   // 根据传入的title获取详情
-  props: ['title'],
+  props: ['title', 'item', 'index'],
+  computed: {
+    itemPrice(){
+      if(!!this.item){
+        return `￥ ${this.item.price}`
+      } else {
+        return '暂无'
+      }
+      // return 0
+    }
+  },
   methods: {
     hideRoomDetails(){
       this.$emit('hideRoomDetails')
@@ -87,6 +93,9 @@ export default {
     },
     eps(event){
       event.stopPropagation();
+    },
+    triggerOrder(){
+      this.$emit('order', this.index)
     }
   }
 }

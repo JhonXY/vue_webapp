@@ -3,12 +3,13 @@
     <head-top v-bind="head"></head-top>
     <group>
       <x-input title="帐号" v-model="user"></x-input>
-      <x-input title="密码" v-model="password"></x-input>
+      <x-input type="password" title="密码" v-model="password"></x-input>
       <!-- <x-input title="title" v-model="value"></x-input> -->
     </group>
     <div class="login_btn">
       <x-button type="primary" @click.native="loginIn">登录</x-button>
     </div>
+    <router-link class="toregister" :to="'/register'">无账号请先注册</router-link>
   </div>
 </template>
 
@@ -119,5 +120,12 @@ export default {
   .login_btn {
     padding: 0.75rem;
   }
+}
+.toregister {
+  text-align: center;
+  width: 100%;
+  display: block;
+  font-size: .7rem;
+  margin-top: -.5rem;
 }
 </style>

@@ -29,12 +29,11 @@ export default {
   methods: {
     // 用于弹窗的头部标题显示
     showDetails(){
-      this.$emit('show', this.name)
+      this.$emit('show', this.index)
     },
     // 用于触发订单处理
     // 传递数组index确认具体床型信息位置
     triggerOrder(){
-      console.log('itemIndex', this.index);
       this.$emit('order', this.index)
     }
   }
