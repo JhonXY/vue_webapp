@@ -29,7 +29,16 @@
         </div>
         <div class="right-con">
           <router-link 
-          :to="{path: '/agritainment/mapDirection', query: moreDetails.address}" 
+          :to="{
+            path: '/agritainment/mapDirection',
+            query: {
+              name: moreDetails.name,
+              tele: moreDetails.tele,
+              sec: moreDetails.address.sec,
+              fir: moreDetails.address.fir,
+              coordinates: moreDetails.address.coordinates
+            }
+          }" 
           tag="span"
           class="right-content">地图</router-link>
         </div>
@@ -58,7 +67,7 @@
           class="check-live">点菜</router-link>
         </div>
       </div>
-      <div @click="showDatePicker" class="check-bar">
+      <div v-if="roomList.length > 0" @click="showDatePicker" class="check-bar">
         <div class="live-in">
           <p>入住</p>
           <input v-model="beginTime" type="text" placeholder="入店日期" readonly>
@@ -81,6 +90,7 @@
           </room-item>
       </ul>
     </div>
+    <div class="noData" v-if="roomList.length <= 0">暂无数据</div>
     <date-picker 
       v-show="showPicker" 
       @confirm="confirm" 
@@ -148,7 +158,7 @@ export default {
       canRecordInfo: false, // 是否可以获取记录
       roomItem: null,
       detailIndex: 0, 
-      rate: 5
+      rate: 3.4
     }
   },
   // 路由钩子的回调触发在mounted之后
@@ -229,7 +239,7 @@ export default {
           tele: res.data.data.shop.tele,
           rate: res.data.data.shop.rate
         }
-        this.rate = res.data.data.shop.rate
+        this.rate = 4.4
         this.roomList.forEach(item => {
           item.imgsrc = 'http://dimg04.c-ctrip.com/images/220f0j000000b1bar536E_C_130_130_Q50.jpg?v=1'
         })
@@ -529,6 +539,12 @@ export default {
 .router-slid-enter, .router-slid-leave-active {
     transform: translate3d(2rem, 0, 0);
     opacity: 0;
+}
+.noData {
+  font-size: .8rem;
+  padding: 2rem;
+  color: #bdbdbd;
+  text-align: center;
 }
 </style>
 

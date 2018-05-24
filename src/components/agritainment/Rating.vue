@@ -1,27 +1,19 @@
 <template>
   <div class="rating">
-    <div style="display: inline-block">
+    <!-- 用于标识的key同一模块内index最好保证没有重合 -->
     <span 
     class="rating-star rating-star-solid" 
     v-for="index in a" 
     :key="index">
-    </span>
-    </div>
-    <!-- 用于标识的key同一模块内index最好保证没有重合 -->
-    <dir style="display: inline-block">
-    <span 
+    </span><span 
     class="rating-star rating-star-half" 
     v-for="index in b" 
     :key="index+=100">
-    </span>
-    </dir>
-    <div style="display: inline-block">
-    <span 
+    </span><span 
     class="rating-star rating-star-empty" 
     v-for="index in c" 
     :key="index+=200">
     </span>
-    </div>
     <span ref="rate" class="subject-rate">{{rate}}</span>
   </div>
 </template>

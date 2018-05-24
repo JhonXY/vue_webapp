@@ -6,7 +6,7 @@
       <h3>登录后查看订单</h3>
       <button @click="goLogin">立即登录</button>
     </section>
-    <foot-guide></foot-guide>
+    <!-- <foot-guide></foot-guide> -->
   </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
   background: #f5f5f5;
   overflow: hidden;
   section {
-    padding: 8.2rem 0;
+    padding: 8rem 0 10rem 0;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -10,7 +10,7 @@
     >{{item}}</div>
   </div>
   <div class="order-container">
-    <div v-for="(item, index) in orderList" class="order-item" :key="index">
+    <div v-if="orderList.length > 0" v-for="(item, index) in orderList" class="order-item" :key="index">
       <dl @click="testPing(item.amount)">
         <dt class="title">
           <div>{{item.shopName}}</div>
@@ -19,6 +19,10 @@
         <dt class="item">下单时间 : {{item.createdAt | formatTime}}</dt>
         <dt class="item">总价 : ￥{{item.amount}}</dt>
       </dl>
+    </div>
+    <div class="noList" v-if="orderList.length <= 0">
+      <img v-if="orderList.length <= 0" src="https://fuss10.elemecdn.com/6/87/4efda8c6bf4734d39faf86fe190c3gif.gif" alt="">
+      <div>暂无订单</div>
     </div>
   </div>
 </div>  
@@ -193,6 +197,20 @@ export default {
         line-height: .7rem;
         color: #999;
         font-size: .5rem;
+      }
+    }
+    .noList {
+      padding: 5rem 0 10rem 0;
+      background: #f5f5f5;
+      img {
+        height: 10rem;
+        margin: 0 auto;
+        display: block;
+      }
+      div {
+        font-size: .8rem;
+        color: #a4a4a4;
+        text-align: center;
       }
     }
   }

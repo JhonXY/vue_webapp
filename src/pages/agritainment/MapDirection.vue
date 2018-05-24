@@ -23,11 +23,20 @@ export default {
     HeadTop
   },
   computed: {
+    // 经纬度
     direction(){    
       return this.$route.query.coordinates
     },
+    name(){    
+      return this.$route.query.name
+    },
+    tele(){    
+      return this.$route.query.tele
+    },
+    // 具体地址加商圈
     address(){
       return this.$route.query.fir + ' ' + this.$route.query.sec
+      return 'lalalalal'
     }
   },
   mounted(){
@@ -35,10 +44,10 @@ export default {
   },
   methods: {
     getCenter(){
-      var _this = this;
+      var _this = this;    
       var map = new AMap.Map('container', {
         resizeEnable: true,
-        zoom:11,
+        zoom: 11,
         center: _this.direction
       });
       var marker = new AMap.Marker({
@@ -49,20 +58,12 @@ export default {
       var length = AMap.Pixel(10,10)
       var infowindow = new AMap.InfoWindow({
           content: createInfoWindow(
-            `方恒假日酒店&nbsp;&nbsp;
-            <span style="font-size:11px;color:#F00;">
-            价格:318
-            </span>`
+            `<div style="height: 1rem; font-size: .7rem;">店铺：${_this.name}&nbsp;&nbsp;
+            <span style="font-size:.5rem;color:#F00;">
+            人均: 约 100
+            </span><div/>`
             ,
-            `<img 
-            src='http://tpc.googlesyndication.com/simgad/5843493769827749134' 
-            style='float:left;margin:0 5px 5px 0;'
-            >
-            地址：北京市朝阳区阜通东大街6号院3号楼 东北 8.3 公里
-            <br/>电话：010 64733333<br/>
-            <a href='http://baike.baidu.com/view/6748574.htm'>
-            详细信息
-            </a>`
+            `<div style="height: 1rem; font-size: .7rem;">联系电话：${_this.tele}<div/>`
             ),
           autoMove: true,
           offset: new AMap.Pixel(2, -20)
@@ -128,5 +129,15 @@ export default {
   margin-top: 1.95rem;
   height: 100%;
 }
+.info {
+  .info-top {
+ 
+  }
+  .info-middle {
+    height: 1rem;
+    font-size: .7rem;
+  }
+}
+
 </style>
 

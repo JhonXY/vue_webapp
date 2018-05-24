@@ -165,6 +165,45 @@ export default {
   mounted(){
     this.windowHeight = window.innerHeight;
     this.$nextTick(() => {
+      getFoodItems({shopId: this.$route.query.shopId}).then(res => {
+        let data = res.data.data
+        let list = [], categoryList = [], tmp=[]
+        data.forEach(item => {
+          let foodItem = {
+            _id: item.id,
+            category_id: item.shopfoodcategory_id,
+            name: item.name,
+            price: item.price,
+            introduction: item.introduction,
+            tips: item.tips,
+            specialty: true,
+            imgsrc: item.imgdata,
+            unit: item.unit,
+            more: []
+          }
+          // 新的分类     
+          if(!tmp.includes(item.category)){
+            tmp.push(item.category)
+            categoryList.push({
+              name: item.category,
+              id: item.shopfoodcategory_id
+            })
+            categoryList[categoryList.length-1].foods = []
+            categoryList[categoryList.length-1].foods.push(foodItem)
+          } else {
+            // 已有的分类
+            categoryList[tmp.indexOf(item.category)].foods.push(foodItem)
+          }
+        })
+        // console.log(categoryList);
+        // 生成店铺菜单
+        this.menuList = categoryList
+        // 生成菜单后操作
+      }).then(()=>{
+        // 需要等待dom节点的生成
+        this.getFoodListHeight()
+        this.initPresentCartList()
+      })
     })
   },
   // 从本地读取购物车信息
@@ -173,43 +212,6 @@ export default {
   },
   // 此时data已产生
   created(){
-    getFoodItems({shopId: this.$route.query.shopId}).then(res => {
-      let data = res.data.data
-      let list = [], categoryList = [], tmp=[]
-      data.forEach(item => {
-        let foodItem = {
-          _id: item.id,
-          category_id: item.shopfoodcategory_id,
-          name: item.name,
-          price: item.price,
-          introduction: item.introduction,
-          tips: item.tips,
-          specialty: true,
-          imgsrc: item.imgdata,
-          unit: item.unit,
-          more: []
-        }
-        // 新的分类     
-        if(!tmp.includes(item.category)){
-          tmp.push(item.category)
-          categoryList.push({
-            name: item.category,
-            id: item.shopfoodcategory_id
-          })
-          categoryList[categoryList.length-1].foods = []
-          categoryList[categoryList.length-1].foods.push(foodItem)
-        } else {
-          // 已有的分类
-          categoryList[tmp.indexOf(item.category)].foods.push(foodItem)
-        }
-      })
-      // console.log(categoryList);
-      // 生成店铺菜单
-      this.menuList = categoryList
-      // 生成菜单后操作
-      this.getFoodListHeight()
-      this.initPresentCartList()
-    })
   },
   components: {
     BuyCar,
@@ -221,7 +223,12 @@ export default {
     ]),
     // 读取该该商店的购物车信息
     shopCart(){
-      return Object.assign({},this.cartList[this.shopId]);
+      let shopCar = this.cartList[this.shopId]
+      if(!!shopCar){
+        return Object.assign({}, shopCar);
+      } else {
+        return {}
+      }
     },
     // 购物车总值
     totalNum(){
@@ -245,11 +252,16 @@ export default {
     },
     //获取食品列表的高度，存入shopListTop
     getFoodListHeight(){
+      // 一定要等待dom节点的生成
       const listContainer = this.$refs.menuFoodList;
-      const listArr = Array.from(listContainer.children[0].children);
+      let childrens = listContainer.children[0].children
+      // let listArr = []
+      let listArr = Array.from(childrens);
+      // let listArr = [].slice.call(listContainer.children[0].children);
       listArr.forEach((item, index) => {
           this.shopListTop[index] = item.offsetTop;
       });
+      
       this.listenScroll(listContainer)
     },
     //当滑动食品列表时，监听其scrollTop值来设置对应的食品列表标题的样式
@@ -284,14 +296,14 @@ export default {
       // presentCartList: null, // 当前shop的购物车
       // totalPrice: 0, 
       let newArr = []; // 分类数量数组新建
-      let cartFoodNum = 0;
+      let cartFoodNum = 0; //商品总件数
       this.presentCartList = []; // 当前商店购物车
       this.totalPrice = 0; // 当前商店总值
+      // console.log(this.menuList);
+      
       this.menuList.forEach((item, index) => {
         // if(this.shopCart&&this.shopCart[item.foods[0].category_id]){ // 通过分类来做循环
-        console.log(item);
-        
-        if(this.shopCart){ // 通过分类来做循环
+        if(JSON.stringify(this.shopCart) !== '{}'){ // 通过分类来做循环
           let num = 0;
           Object.keys(this.shopCart[item.foods[0].category_id]).forEach(itemid => {  // 通过Objects.keys取到遍历数组
             Object.keys(this.shopCart[item.foods[0].category_id][itemid]).forEach(foodid => {

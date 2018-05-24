@@ -6,6 +6,7 @@ import Register from '../pages/Register.vue';
 import Region from '../pages/Region.vue';
 import City from '../pages/City.vue';
 import UserInfo from '../pages/UserInfo.vue';
+import InfoChange from '../pages/InfoChange.vue';
 import OrderManage from '../pages/OrderManage.vue';
 import NeedLogin from '../pages/NeedLogin.vue';
 import UserInfoMore from '../pages/UserInfoMore.vue';
@@ -55,6 +56,10 @@ export const routes = [
   {
     path: '/userInfoMore',
     component: UserInfoMore
+  },
+  {
+    path: '/infoChange',
+    component: InfoChange
   },
   {
     path: '/orderManage',

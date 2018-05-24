@@ -9,6 +9,14 @@ export function register(data) {
   })
 }
 
+export function changePassword(data) {
+  return fetch({
+    url: '/users/changePassword',
+    method: 'post',
+    data
+  })
+}
+
 export function alipay(data) {
   return fetch({
     url: '/users/alipay',

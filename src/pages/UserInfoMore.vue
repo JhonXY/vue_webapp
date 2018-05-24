@@ -9,7 +9,7 @@
     <div class="content">
       <span>登录密码</span>
       <span class="span2"> 
-        <span style="color: #41a2fc;">修改</span>
+        <span @click="changePass" style="color: #41a2fc;">修改</span>
         <svg style="position: relative; top: 2px;">
           <svg viewBox="0 0 547 987" id="arrow" width="100%" height="100%"><path fill="#999" fill-rule="evenodd" d="M0 931.973l51.2 54.613 494.933-494.933L51.2.133 0 51.333l440.32 440.32L0 931.973z"></path></svg>
         </svg>
@@ -22,6 +22,7 @@
 import HeadTop from '../components/index/HeadTop.vue';
 import { XButton, XInput, Group } from 'vux';
 import { mapGetters } from 'vuex';
+import { changePassword } from '@/apis/users';
 export default {
   components: {
     Group,
@@ -37,12 +38,18 @@ export default {
   data(){
     return {
       head: {
-      goBack: true,
-      title: '个人信息',
-      login: false
+        goBack: true,
+        title: '帐户信息',
+        login: false
       }
     }
   },
+  methods: {
+    changePass(){
+      console.log(this.userInfo);
+      this.$router.push({path: '/infoChange'})
+    }
+  }
 }
 </script>
 

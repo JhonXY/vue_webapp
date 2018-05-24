@@ -12,6 +12,7 @@
         @click="changeOrderList(item, key)"
         >{{item}}</li>
       </ul>
+      <!-- <img v-if="orderList.length <= 0" src="https://fuss10.elemecdn.com/6/87/4efda8c6bf4734d39faf86fe190c3gif.gif" alt=""> -->
     </div>
     
     <transition name="router-fade" mode="out-in">
